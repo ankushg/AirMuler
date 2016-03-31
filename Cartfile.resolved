@@ -1,0 +1,2 @@
+github "SwiftyJSON/SwiftyJSON" "2.3.3"
+github "jedisct1/swift-sodium" "0.1"
