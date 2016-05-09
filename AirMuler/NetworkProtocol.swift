@@ -10,7 +10,7 @@ import Foundation
 import MultipeerConnectivity
 
 public protocol NetworkProtocolDelegate {
-    func receivedMessage(message: NSData?, from publicKey: PublicKey, at time: NSDate)
+    func receivedMessage(message: NSData?, from publicKey: PublicKey)
 }
 
 struct NetworkProtocolConstants {
@@ -136,10 +136,14 @@ public class NetworkProtocol: NSObject, MCSessionDelegate, MCNearbyServiceAdvert
         let packet = DataPacket.deserialize(data)
         
         do {
-            let (decrypted, sender, time) = try SodiumCryptoProvider.decryptMessage(packet.blob, with: self.keyPair)
+            let (decryptedPayLoad, sender, ackMessage) = try SodiumCryptoProvider.decryptMessage(packet.blob, with: self.keyPair)
             
-            print("Successfully decrypted message \(decrypted) from \(sender)")
-            delegate?.receivedMessage(decrypted, from: sender, at: time)
+            if let payload = decryptedPayLoad {
+                print("Successfully decrypted message \(payload) from \(sender)")
+                delegate?.receivedMessage(payload, from: sender)
+            }
+            
+
         } catch {
             if packet.decrementTTL() {
                 if !inBuffer(packet) {

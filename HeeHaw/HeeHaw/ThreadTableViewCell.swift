@@ -27,7 +27,7 @@ class ThreadTableViewCell: UITableViewCell {
         self.contentView.addSubview(messageTextLabel)
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 }

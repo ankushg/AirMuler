@@ -7,18 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AC278CD71CE0662B0067AB6A /* Sodium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC278CD61CE0662B0067AB6A /* Sodium.framework */; };
+		AC278CD91CE066320067AB6A /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC278CD81CE066320067AB6A /* SwiftyJSON.framework */; };
 		AC830DC11CAB221300DEAC85 /* AirMuler.h in Headers */ = {isa = PBXBuildFile; fileRef = AC830DC01CAB221300DEAC85 /* AirMuler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AC830DC81CAB221300DEAC85 /* AirMuler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC830DBD1CAB221300DEAC85 /* AirMuler.framework */; };
 		AC830DCD1CAB221300DEAC85 /* AirMulerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC830DCC1CAB221300DEAC85 /* AirMulerTests.swift */; };
-		AC830DF01CAB333300DEAC85 /* Sodium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC830DE31CAB32EF00DEAC85 /* Sodium.framework */; };
 		AC830DF21CAB38F400DEAC85 /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC830DF11CAB38F400DEAC85 /* Crypto.swift */; };
 		ACDD573D1CAC4ECB007DEF68 /* NetworkProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDD573C1CAC4ECB007DEF68 /* NetworkProtocol.swift */; };
 		ACDD57461CAC5730007DEF68 /* DataPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDD57451CAC5730007DEF68 /* DataPacket.swift */; };
-		C00B36771CDFECA900CFD244 /* SwiftyRSA.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C00B36761CDFECA900CFD244 /* SwiftyRSA.framework */; };
-		C0D127211CD7B39600717863 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D127201CD7B39600717863 /* SwiftyJSON.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		AC278CD41CE064C60067AB6A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AC278CCF1CE064C60067AB6A /* HeeHaw.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ACD270B71CE00BA500C719A8;
+			remoteInfo = HeeHaw;
+		};
 		AC830DC91CAB221300DEAC85 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AC830DB41CAB221300DEAC85 /* Project object */;
@@ -26,70 +32,21 @@
 			remoteGlobalIDString = AC830DBC1CAB221300DEAC85;
 			remoteInfo = AirMuler;
 		};
-		AC830DE21CAB32EF00DEAC85 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AC830DD81CAB32EF00DEAC85 /* Sodium.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 09A943C71A4EB5F500C8A04F;
-			remoteInfo = Sodium_iOS;
-		};
-		AC830DE41CAB32EF00DEAC85 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AC830DD81CAB32EF00DEAC85 /* Sodium.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 09A943D21A4EB5F500C8A04F;
-			remoteInfo = SodiumTests;
-		};
-		AC830DE61CAB32EF00DEAC85 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AC830DD81CAB32EF00DEAC85 /* Sodium.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 90C75E941AE3571900F1E749;
-			remoteInfo = Sodium_OSX;
-		};
-		AC830DE81CAB32EF00DEAC85 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AC830DD81CAB32EF00DEAC85 /* Sodium.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 901644B61AE36EA700163E3E;
-			remoteInfo = "Example iOS";
-		};
-		AC830DEA1CAB32EF00DEAC85 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AC830DD81CAB32EF00DEAC85 /* Sodium.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 901644CA1AE36EA800163E3E;
-			remoteInfo = "Example iOSTests";
-		};
-		AC830DEC1CAB32EF00DEAC85 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AC830DD81CAB32EF00DEAC85 /* Sodium.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 901644DC1AE36F2D00163E3E;
-			remoteInfo = "Example OSX";
-		};
-		AC830DEE1CAB32EF00DEAC85 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AC830DD81CAB32EF00DEAC85 /* Sodium.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 901644EB1AE36F2E00163E3E;
-			remoteInfo = "Example OSXTests";
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AC278CCF1CE064C60067AB6A /* HeeHaw.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HeeHaw.xcodeproj; path = HeeHaw/HeeHaw.xcodeproj; sourceTree = "<group>"; };
+		AC278CD61CE0662B0067AB6A /* Sodium.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sodium.framework; path = "Carthage/Checkouts/swift-sodium/build/Debug-iphoneos/Sodium.framework"; sourceTree = "<group>"; };
+		AC278CD81CE066320067AB6A /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "Carthage/Checkouts/SwiftyJSON/build/Debug-iphoneos/SwiftyJSON.framework"; sourceTree = "<group>"; };
 		AC830DBD1CAB221300DEAC85 /* AirMuler.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AirMuler.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC830DC01CAB221300DEAC85 /* AirMuler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AirMuler.h; sourceTree = "<group>"; };
 		AC830DC21CAB221300DEAC85 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AC830DC71CAB221300DEAC85 /* AirMulerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AirMulerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC830DCC1CAB221300DEAC85 /* AirMulerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirMulerTests.swift; sourceTree = "<group>"; };
 		AC830DCE1CAB221300DEAC85 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AC830DD81CAB32EF00DEAC85 /* Sodium.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Sodium.xcodeproj; path = "Carthage/Checkouts/swift-sodium/Sodium.xcodeproj"; sourceTree = "<group>"; };
 		AC830DF11CAB38F400DEAC85 /* Crypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crypto.swift; sourceTree = "<group>"; };
 		ACDD573C1CAC4ECB007DEF68 /* NetworkProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkProtocol.swift; sourceTree = "<group>"; };
 		ACDD57451CAC5730007DEF68 /* DataPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataPacket.swift; sourceTree = "<group>"; };
-		C00B36761CDFECA900CFD244 /* SwiftyRSA.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyRSA.framework; path = Carthage/Build/iOS/SwiftyRSA.framework; sourceTree = "<group>"; };
-		C0D127201CD7B39600717863 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,9 +54,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC830DF01CAB333300DEAC85 /* Sodium.framework in Frameworks */,
-				C0D127211CD7B39600717863 /* SwiftyJSON.framework in Frameworks */,
-				C00B36771CDFECA900CFD244 /* SwiftyRSA.framework in Frameworks */,
+				AC278CD91CE066320067AB6A /* SwiftyJSON.framework in Frameworks */,
+				AC278CD71CE0662B0067AB6A /* Sodium.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,15 +70,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AC278CD01CE064C60067AB6A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AC278CD51CE064C60067AB6A /* HeeHaw.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		AC830DB31CAB221300DEAC85 = {
 			isa = PBXGroup;
 			children = (
-				C00B36761CDFECA900CFD244 /* SwiftyRSA.framework */,
-				C0D127201CD7B39600717863 /* SwiftyJSON.framework */,
+				AC278CD81CE066320067AB6A /* SwiftyJSON.framework */,
+				AC278CD61CE0662B0067AB6A /* Sodium.framework */,
+				AC278CCF1CE064C60067AB6A /* HeeHaw.xcodeproj */,
 				AC830DBF1CAB221300DEAC85 /* AirMuler */,
 				AC830DCB1CAB221300DEAC85 /* AirMulerTests */,
 				AC830DBE1CAB221300DEAC85 /* Products */,
-				AC830DD81CAB32EF00DEAC85 /* Sodium.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -154,20 +118,6 @@
 				AC830DCE1CAB221300DEAC85 /* Info.plist */,
 			);
 			path = AirMulerTests;
-			sourceTree = "<group>";
-		};
-		AC830DD91CAB32EF00DEAC85 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				AC830DE31CAB32EF00DEAC85 /* Sodium.framework */,
-				AC830DE51CAB32EF00DEAC85 /* SodiumTests.xctest */,
-				AC830DE71CAB32EF00DEAC85 /* Sodium.framework */,
-				AC830DE91CAB32EF00DEAC85 /* Example iOS.app */,
-				AC830DEB1CAB32EF00DEAC85 /* Example iOSTests.xctest */,
-				AC830DED1CAB32EF00DEAC85 /* Example OSX.app */,
-				AC830DEF1CAB32EF00DEAC85 /* Example OSXTests.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -251,8 +201,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = AC830DD91CAB32EF00DEAC85 /* Products */;
-					ProjectRef = AC830DD81CAB32EF00DEAC85 /* Sodium.xcodeproj */;
+					ProductGroup = AC278CD01CE064C60067AB6A /* Products */;
+					ProjectRef = AC278CCF1CE064C60067AB6A /* HeeHaw.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -264,53 +214,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		AC830DE31CAB32EF00DEAC85 /* Sodium.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Sodium.framework;
-			remoteRef = AC830DE21CAB32EF00DEAC85 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		AC830DE51CAB32EF00DEAC85 /* SodiumTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = SodiumTests.xctest;
-			remoteRef = AC830DE41CAB32EF00DEAC85 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		AC830DE71CAB32EF00DEAC85 /* Sodium.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Sodium.framework;
-			remoteRef = AC830DE61CAB32EF00DEAC85 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		AC830DE91CAB32EF00DEAC85 /* Example iOS.app */ = {
+		AC278CD51CE064C60067AB6A /* HeeHaw.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
-			path = "Example iOS.app";
-			remoteRef = AC830DE81CAB32EF00DEAC85 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		AC830DEB1CAB32EF00DEAC85 /* Example iOSTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "Example iOSTests.xctest";
-			remoteRef = AC830DEA1CAB32EF00DEAC85 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		AC830DED1CAB32EF00DEAC85 /* Example OSX.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = "Example OSX.app";
-			remoteRef = AC830DEC1CAB32EF00DEAC85 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		AC830DEF1CAB32EF00DEAC85 /* Example OSXTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "Example OSXTests.xctest";
-			remoteRef = AC830DEE1CAB32EF00DEAC85 /* PBXContainerItemProxy */;
+			path = HeeHaw.app;
+			remoteRef = AC278CD41CE064C60067AB6A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -468,6 +376,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Carthage/Checkouts/swift-sodium/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/Carthage/Checkouts/SwiftyJSON/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = AirMuler/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -494,6 +404,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Carthage/Checkouts/swift-sodium/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/Carthage/Checkouts/SwiftyJSON/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = AirMuler/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";

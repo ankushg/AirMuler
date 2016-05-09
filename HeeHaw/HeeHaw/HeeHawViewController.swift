@@ -10,11 +10,10 @@ import UIKit
 
 import CoreData
 import AirMuler
+import SwiftyJSON
+import CoreActionSheetPicker
 
-class HeeHawViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NetworkProtocolDelegate, UINavigationBarDelegate, LGChatControllerDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
-    let IOS_BAR_HEIGHT : Float = 20.0
-    let ROWS_PER_SCREEN : Float = 8.0
-    let NAV_BAR_HEIGHT : Float = 64.0
+class HeeHawViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NetworkProtocolDelegate, UINavigationBarDelegate, LGChatControllerDelegate, UIPickerViewDataSource, ActionSheetCustomPickerDelegate{
     
     var networkingLayer : NetworkProtocol
     var chatController : LGChatController = LGChatController()
@@ -64,7 +63,7 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
         let leftButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: #selector(addNewContact))
         self.navigationController?.topViewController?.navigationItem.leftBarButtonItem = leftButton
         let rightButton = UIBarButtonItem(barButtonSystemItem: .Compose, target: self, action: #selector(composeNewMessage))
-        self.navigationController?.topViewController?.navigationItem.leftBarButtonItem = rightButton
+        self.navigationController?.topViewController?.navigationItem.rightBarButtonItem = rightButton
         
         chatController.delegate = self
     }
@@ -74,7 +73,10 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func addNewContact() {
-        let alertController = UIAlertController(title: "Add New Name", message: "", preferredStyle: UIAlertControllerStyle.Alert)
+        let alertController = UIAlertController(title: "Add a Contact", message: "", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+        alertController.addAction(cancelAction)
         
         let saveAction = UIAlertAction(title: "Save", style: .Default, handler: {
             alert -> Void in
@@ -82,20 +84,16 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
             let alias = (alertController.textFields![0] as UITextField).text as String!
             let pubKey = (alertController.textFields![1] as UITextField).text as String!
             
-            if((self.aliases[pubKey]) != nil) {
+            if((self.aliases[pubKey] == nil)) {
                 self.contacts.append(pubKey)
                 self.aliases[pubKey] = alias!
                 self.messages[pubKey!] = []
             } else {
-                print("Already have alias for \(pubKey)")
+                print("Already have alias \(self.aliases[pubKey]) for \(pubKey)")
             }
         })
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Default, handler: {
-            (action : UIAlertAction!) -> Void in
-            
-        })
-        
+        alertController.addAction(saveAction)
+
         alertController.addTextFieldWithConfigurationHandler { (textField : UITextField!) -> Void in
             textField.placeholder = "Alias"
         }
@@ -103,10 +101,12 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
             textField.placeholder = "Public Key"
         }
         
-        alertController.addAction(saveAction)
-        alertController.addAction(cancelAction)
         
         self.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    func composeNewMessage() {
+        ActionSheetCustomPicker.showPickerWithTitle("Choose recipient", delegate: self, showCancelButton: true, origin: self.view)
     }
     
     func fetchMessages() {
@@ -143,14 +143,13 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
         self.messageTable.reloadData()
     }
     
-    func getEarliestMessageForPublicKey(publicKey : String) -> Message? {
-        return (self.messages[publicKey])?.first
-    }
-    
     func showChatForCurrentPubKey() {
-        print("Pushing Chat controller")
-        chatController.messages = getMessagesForPublicKey(currentChatPubKey!)
-        self.navigationController?.pushViewController(chatController, animated: true)
+        if let pubKey = currentChatPubKey {
+            print("Pushing Chat controller")
+            chatController.messages = getMessagesForPublicKey(pubKey)
+            self.navigationController?.pushViewController(chatController, animated: true)
+            chatController.title = getAliasFromPublicKey(pubKey)
+        }
     }
     
     func saveMessage(message: String, from sender : String, withKey publicKey: String, at time: NSDate) {
@@ -191,20 +190,7 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
         }
         return []
     }
-    
-    internal func composeNewMessage() {
-        let alert = UIAlertController(title: "Choose recipient", message: nil, preferredStyle: .ActionSheet);
-        alert.modalInPopover = true;
-        
-        let pickerFrame: CGRect = CGRectMake(17, 52, 270, 100); // CGRectMake(left), top, width, height) - left and top are like margins
-        let picker: UIPickerView = UIPickerView(frame: pickerFrame);
-        picker.delegate = self;
-        picker.dataSource = self;
-        alert.view.addSubview(picker);
-        
-        self.presentViewController(alert, animated: true, completion: nil)
-    }
-    
+
     // MARK: UITableViewDataSource
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("MessageCell", forIndexPath: indexPath) as! ThreadTableViewCell
@@ -245,10 +231,25 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
         return getAliasFromPublicKey(contacts[row])
     }
     
-    // MARK: UIPickerDelegate
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        self.currentChatPubKey = contacts[row]
-        showChatForCurrentPubKey()
+    //MARK: ActionSheetCustomPickerDelegate
+    func actionSheetPicker(actionSheetPicker: AbstractActionSheetPicker!, configurePickerView pickerView: UIPickerView!) {
+        pickerView.dataSource = self
+    }
+    
+    func actionSheetPickerDidSucceed(actionSheetPicker: AbstractActionSheetPicker!, origin: AnyObject!) {
+        if let picker = actionSheetPicker.pickerView as? UIPickerView {
+            let row = picker.selectedRowInComponent(0)
+            if (row > -1) {
+                self.currentChatPubKey = contacts[row]
+            }
+            
+            self.showChatForCurrentPubKey()
+        }
+        
+    }
+    
+    func actionSheetPickerDidCancel(actionSheetPicker: AbstractActionSheetPicker!, origin: AnyObject!) {
+        // Do nothing
     }
     
     // MARK: LGChatControllerDelegate
@@ -259,7 +260,10 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
     func shouldChatController(chatController: LGChatController, addMessage message: LGChatMessage) -> Bool {
         do {
             let actualPubKey = NSData(base64EncodedString: currentChatPubKey!, options: .IgnoreUnknownCharacters)!
-            try networkingLayer.sendMessage(message.content.dataUsingEncoding(NSUTF8StringEncoding)!, to: actualPubKey)
+            let json : JSON = ["message": message.content, "timestamp": NSDate().timeIntervalSince1970]
+            let data = try json.rawData()
+            
+            try networkingLayer.sendMessage(data, to: actualPubKey)
         } catch let error as NSError {
             print("Unresolved error \(error), \(error.userInfo)")
             abort()
@@ -271,24 +275,28 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     // MARK: NetworkProtocolDelegate
-    func receivedMessage(message: NSData?, from publicKey: PublicKey, at time: NSDate) {
-        let messageText = String(data: message!, encoding: NSUTF8StringEncoding)!
-        let messagePublicKey = String(data: publicKey, encoding: NSUTF8StringEncoding)!
+    func receivedMessage(messageData: NSData?, from publicKey: PublicKey) {
+        let messageObj = JSON(messageData!)
         
-        if let previousMessages = self.messages[messagePublicKey] {
-            for message in previousMessages {
-                let sameTime = message.timestamp.compare(time) == NSComparisonResult.OrderedSame
-                if messageText == message.text && sameTime {
-                    return
+        if let messageText = messageObj["message"].string, timestamp = messageObj["timestamp"].double {
+            let messagePublicKey = String(data: publicKey, encoding: NSUTF8StringEncoding)!
+            let time = NSDate(timeIntervalSince1970: timestamp)
+            
+            if let previousMessages = self.messages[messagePublicKey] {
+                for message in previousMessages {
+                    let sameTime = message.timestamp.compare(time) == .OrderedSame
+                    if messageText == message.text && sameTime {
+                        return
+                    }
                 }
             }
-        }
-        
-        saveMessage(messageText, from: getAliasFromPublicKey(messagePublicKey), withKey: messagePublicKey, at: time)
-        self.fetchMessages()
-        
-        if (messagePublicKey == currentChatPubKey) {
-            self.chatController.addNewMessage(LGChatMessage(content: messageText, sentBy: .Opponent))
+            
+            saveMessage(messageText, from: getAliasFromPublicKey(messagePublicKey), withKey: messagePublicKey, at: time)
+            self.fetchMessages()
+            
+            if (messagePublicKey == currentChatPubKey) {
+                self.chatController.addNewMessage(LGChatMessage(content: messageText, sentBy: .Opponent))
+            }
         }
     }
 }
