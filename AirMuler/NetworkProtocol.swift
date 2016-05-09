@@ -9,7 +9,7 @@
 import Foundation
 import MultipeerConnectivity
 
-protocol NetworkProtocolDelegate {
+public protocol NetworkProtocolDelegate {
     func receivedMessage(message: NSData?, from publicKey: PublicKey, at time: NSDate)
 }
 
@@ -58,7 +58,7 @@ public class NetworkProtocol: NSObject, MCSessionDelegate, MCNearbyServiceAdvert
     
     var buffer : [BufferItem]
     var keyPair : KeyPair
-    var delegate : NetworkProtocolDelegate?
+    public var delegate : NetworkProtocolDelegate?
     
     init(keyPair: KeyPair) {
         self.buffer = []
@@ -82,14 +82,19 @@ public class NetworkProtocol: NSObject, MCSessionDelegate, MCNearbyServiceAdvert
     }
     
     public func sendMessage(message: NSData, to recipient: PublicKey) throws {
-        if let encrypted = SodiumCryptoProvider.encryptMessage(message, with: self.keyPair, to: recipient) {
-            let packet = DataPacket(blob: encrypted, ttl: NetworkProtocolConstants.defaultTTL)
-            let item = BufferItem(packet: packet, rTime: NSDate())
-            
-            self.buffer.append(item)
-            try self.session.sendData(item.packetItem.serialize(), toPeers: self.session.connectedPeers, withMode: .Reliable)
-            trimBuffer()
+        do {
+            if let encrypted = try SodiumCryptoProvider.encryptMessage(message, with: self.keyPair, to: recipient) {
+                let packet = DataPacket(blob: encrypted, ttl: NetworkProtocolConstants.defaultTTL)
+                let item = BufferItem(packet: packet, rTime: NSDate())
+                
+                self.buffer.append(item)
+                try self.session.sendData(item.packetItem.serialize(), toPeers: self.session.connectedPeers, withMode: .Reliable)
+                trimBuffer()
+            }
+        } catch {
+            print("Error sending message: \(message)")
         }
+
     }
     
     private func inBuffer(packet : DataPacket) -> Bool {
