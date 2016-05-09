@@ -18,13 +18,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		AC278CD41CE064C60067AB6A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AC278CCF1CE064C60067AB6A /* HeeHaw.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = ACD270B71CE00BA500C719A8;
-			remoteInfo = HeeHaw;
-		};
 		AC830DC91CAB221300DEAC85 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AC830DB41CAB221300DEAC85 /* Project object */;
@@ -35,7 +28,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		AC278CCF1CE064C60067AB6A /* HeeHaw.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HeeHaw.xcodeproj; path = HeeHaw/HeeHaw.xcodeproj; sourceTree = "<group>"; };
 		AC278CD61CE0662B0067AB6A /* Sodium.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sodium.framework; path = "Carthage/Checkouts/swift-sodium/build/Debug-iphoneos/Sodium.framework"; sourceTree = "<group>"; };
 		AC278CD81CE066320067AB6A /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "Carthage/Checkouts/SwiftyJSON/build/Debug-iphoneos/SwiftyJSON.framework"; sourceTree = "<group>"; };
 		AC830DBD1CAB221300DEAC85 /* AirMuler.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AirMuler.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -70,20 +62,11 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		AC278CD01CE064C60067AB6A /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				AC278CD51CE064C60067AB6A /* HeeHaw.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		AC830DB31CAB221300DEAC85 = {
 			isa = PBXGroup;
 			children = (
 				AC278CD81CE066320067AB6A /* SwiftyJSON.framework */,
 				AC278CD61CE0662B0067AB6A /* Sodium.framework */,
-				AC278CCF1CE064C60067AB6A /* HeeHaw.xcodeproj */,
 				AC830DBF1CAB221300DEAC85 /* AirMuler */,
 				AC830DCB1CAB221300DEAC85 /* AirMulerTests */,
 				AC830DBE1CAB221300DEAC85 /* Products */,
@@ -199,12 +182,6 @@
 			mainGroup = AC830DB31CAB221300DEAC85;
 			productRefGroup = AC830DBE1CAB221300DEAC85 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = AC278CD01CE064C60067AB6A /* Products */;
-					ProjectRef = AC278CCF1CE064C60067AB6A /* HeeHaw.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				AC830DBC1CAB221300DEAC85 /* AirMuler */,
@@ -212,16 +189,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		AC278CD51CE064C60067AB6A /* HeeHaw.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = HeeHaw.app;
-			remoteRef = AC278CD41CE064C60067AB6A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		AC830DBB1CAB221300DEAC85 /* Resources */ = {
