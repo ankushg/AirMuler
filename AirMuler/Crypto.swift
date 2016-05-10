@@ -53,12 +53,15 @@ struct Dispatch {
 public enum CryptoProviderError : ErrorType {
     case CannotDecryptMessage
     case CannotEncryptMessage
+    case InvalidAckMessage
 }
 
 protocol CryptoProvider {
     static func genKeyPair() -> KeyPair
     static func encryptMessage(message: NSData, with keyPair: KeyPair, to recipient: PublicKey) -> NSData?
     static func decryptMessage(message: NSData, with keyPair: KeyPair) throws -> (payload: NSData?, from: PublicKey, ackMessage: NSData?)
+    static func getMessageType(message: NSData) -> MessageType?
+    static func checkBuffer(buffer: [NSData], against ackMessage: NSData) throws -> Int?
 }
 
 class SodiumCryptoProvider : CryptoProvider {
@@ -118,6 +121,35 @@ class SodiumCryptoProvider : CryptoProvider {
         } else {
             throw CryptoProviderError.CannotDecryptMessage
         }
-    }    
+    }
+    
+    static func getMessageType(message: NSData) -> MessageType? {
+        var messageContainer: MessageContainer = MessageContainer(messageType: MessageType.Ack, ackMessage: nil, contentMessage: nil)
+        message.getBytes(&messageContainer, length: sizeof(MessageContainer))
+        
+        return messageContainer.messageType
+    }
+    
+    static func checkBuffer(buffer: [NSData], against ackMessage: NSData) throws -> Int? {
+        var ackMessageContainer: MessageContainer = MessageContainer(messageType: MessageType.Ack, ackMessage: nil, contentMessage: nil)
+        ackMessage.getBytes(&ackMessageContainer, length: sizeof(MessageContainer))
+        
+        for (index, message) in buffer.enumerate() {
+            var messageContainer: MessageContainer = MessageContainer(messageType: MessageType.Ack, ackMessage: nil, contentMessage: nil)
+            message.getBytes(&messageContainer, length: sizeof(MessageContainer))
+            
+            if (messageContainer.contentMessage?.uuid == ackMessageContainer.ackMessage!.uuid) {
+                let keyCheck = sodium.secretBox.open(messageContainer.contentMessage!.uuidEnc, secretKey: ackMessageContainer.ackMessage!.ackKey)
+                if (keyCheck == messageContainer.contentMessage?.uuid) {
+                    return index
+                } else {
+                    throw CryptoProviderError.InvalidAckMessage
+                }
+            }
+        }
+        
+        return nil
+    }
+
 }
 

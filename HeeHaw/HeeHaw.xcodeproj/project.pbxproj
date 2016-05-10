@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AC278CDB1CE0666A0067AB6A /* AirMuler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC278CDA1CE0666A0067AB6A /* AirMuler.framework */; };
-		AC278CDD1CE066700067AB6A /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC278CDC1CE066700067AB6A /* SwiftyJSON.framework */; };
-		AC278CE01CE06BAD0067AB6A /* CoreActionSheetPicker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC278CDF1CE06BAD0067AB6A /* CoreActionSheetPicker.framework */; };
 		ACD270BB1CE00BA500C719A8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD270BA1CE00BA500C719A8 /* AppDelegate.swift */; };
 		ACD270BD1CE00BA500C719A8 /* HeeHawViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD270BC1CE00BA500C719A8 /* HeeHawViewController.swift */; };
 		ACD270C51CE00BA500C719A8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACD270C41CE00BA500C719A8 /* Assets.xcassets */; };
@@ -17,12 +14,12 @@
 		ACD270E01CE00CA200C719A8 /* HeeHaw.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = ACD270DE1CE00CA200C719A8 /* HeeHaw.xcdatamodeld */; };
 		ACD270E51CE0116200C719A8 /* LGSimpleChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD270E41CE0116200C719A8 /* LGSimpleChat.swift */; };
 		ACD270F71CE05A8800C719A8 /* ThreadTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD270F61CE05A8800C719A8 /* ThreadTableViewCell.swift */; };
+		C0D4D5D41CE18BCF006E1B2A /* AirMuler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D4D5D01CE18BBE006E1B2A /* AirMuler.framework */; };
+		C0D4D5D61CE18BD5006E1B2A /* CoreActionSheetPicker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D4D5D51CE18BD5006E1B2A /* CoreActionSheetPicker.framework */; };
+		C0D4D5D81CE18BDE006E1B2A /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D4D5D71CE18BDE006E1B2A /* SwiftyJSON.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		AC278CDA1CE0666A0067AB6A /* AirMuler.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AirMuler.framework; path = "../../../Library/Developer/Xcode/DerivedData/AirMuler-abwsqrpresbelwdzmamkkyjhhciz/Build/Products/Debug-iphonesimulator/AirMuler.framework"; sourceTree = "<group>"; };
-		AC278CDC1CE066700067AB6A /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "../Carthage/Checkouts/SwiftyJSON/build/Debug-iphoneos/SwiftyJSON.framework"; sourceTree = "<group>"; };
-		AC278CDF1CE06BAD0067AB6A /* CoreActionSheetPicker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreActionSheetPicker.framework; path = "../Carthage/Checkouts/ActionSheetPicker-3.0/CoreActionSheetPicker/build/Debug-iphoneos/CoreActionSheetPicker.framework"; sourceTree = "<group>"; };
 		ACD270B71CE00BA500C719A8 /* HeeHaw.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HeeHaw.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACD270BA1CE00BA500C719A8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ACD270BC1CE00BA500C719A8 /* HeeHawViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeeHawViewController.swift; sourceTree = "<group>"; };
@@ -32,6 +29,9 @@
 		ACD270DF1CE00CA200C719A8 /* SkipChat.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SkipChat.xcdatamodel; sourceTree = "<group>"; };
 		ACD270E41CE0116200C719A8 /* LGSimpleChat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSimpleChat.swift; sourceTree = "<group>"; };
 		ACD270F61CE05A8800C719A8 /* ThreadTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreadTableViewCell.swift; sourceTree = "<group>"; };
+		C0D4D5D01CE18BBE006E1B2A /* AirMuler.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = AirMuler.framework; path = "/Users/jlmart88/Library/Developer/Xcode/DerivedData/AirMuler-dsffwjpkedsuxogkyijpxckpzpzl/Build/Products/Debug-iphonesimulator/AirMuler.framework"; sourceTree = "<absolute>"; };
+		C0D4D5D51CE18BD5006E1B2A /* CoreActionSheetPicker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreActionSheetPicker.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/AirMuler-dsffwjpkedsuxogkyijpxckpzpzl/Build/Products/Debug-iphonesimulator/CoreActionSheetPicker.framework"; sourceTree = "<group>"; };
+		C0D4D5D71CE18BDE006E1B2A /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/AirMuler-dsffwjpkedsuxogkyijpxckpzpzl/Build/Products/Debug-iphonesimulator/SwiftyJSON.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,9 +39,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC278CE01CE06BAD0067AB6A /* CoreActionSheetPicker.framework in Frameworks */,
-				AC278CDD1CE066700067AB6A /* SwiftyJSON.framework in Frameworks */,
-				AC278CDB1CE0666A0067AB6A /* AirMuler.framework in Frameworks */,
+				C0D4D5D81CE18BDE006E1B2A /* SwiftyJSON.framework in Frameworks */,
+				C0D4D5D61CE18BD5006E1B2A /* CoreActionSheetPicker.framework in Frameworks */,
+				C0D4D5D41CE18BCF006E1B2A /* AirMuler.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -51,9 +51,9 @@
 		ACD270AE1CE00BA500C719A8 = {
 			isa = PBXGroup;
 			children = (
-				AC278CDF1CE06BAD0067AB6A /* CoreActionSheetPicker.framework */,
-				AC278CDC1CE066700067AB6A /* SwiftyJSON.framework */,
-				AC278CDA1CE0666A0067AB6A /* AirMuler.framework */,
+				C0D4D5D71CE18BDE006E1B2A /* SwiftyJSON.framework */,
+				C0D4D5D51CE18BD5006E1B2A /* CoreActionSheetPicker.framework */,
+				C0D4D5D01CE18BBE006E1B2A /* AirMuler.framework */,
 				ACD270B91CE00BA500C719A8 /* HeeHaw */,
 				ACD270B81CE00BA500C719A8 /* Products */,
 			);

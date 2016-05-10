@@ -259,11 +259,11 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
     
     func shouldChatController(chatController: LGChatController, addMessage message: LGChatMessage) -> Bool {
         do {
-            let actualPubKey = NSData(base64EncodedString: currentChatPubKey!, options: .IgnoreUnknownCharacters)!
+            let actualPubKey: NSData? = NSData(base64EncodedString: currentChatPubKey!, options: .IgnoreUnknownCharacters)
             let json : JSON = ["message": message.content, "timestamp": NSDate().timeIntervalSince1970]
             let data = try json.rawData()
             
-            try networkingLayer.sendMessage(data, to: actualPubKey)
+            try networkingLayer.sendMessage(data, to: actualPubKey!)
         } catch let error as NSError {
             print("Unresolved error \(error), \(error.userInfo)")
             abort()

@@ -7,14 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AC278CD71CE0662B0067AB6A /* Sodium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC278CD61CE0662B0067AB6A /* Sodium.framework */; };
-		AC278CD91CE066320067AB6A /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC278CD81CE066320067AB6A /* SwiftyJSON.framework */; };
 		AC830DC11CAB221300DEAC85 /* AirMuler.h in Headers */ = {isa = PBXBuildFile; fileRef = AC830DC01CAB221300DEAC85 /* AirMuler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AC830DC81CAB221300DEAC85 /* AirMuler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC830DBD1CAB221300DEAC85 /* AirMuler.framework */; };
 		AC830DCD1CAB221300DEAC85 /* AirMulerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC830DCC1CAB221300DEAC85 /* AirMulerTests.swift */; };
 		AC830DF21CAB38F400DEAC85 /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC830DF11CAB38F400DEAC85 /* Crypto.swift */; };
 		ACDD573D1CAC4ECB007DEF68 /* NetworkProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDD573C1CAC4ECB007DEF68 /* NetworkProtocol.swift */; };
 		ACDD57461CAC5730007DEF68 /* DataPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDD57451CAC5730007DEF68 /* DataPacket.swift */; };
+		C0D4D5DA1CE18BEE006E1B2A /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D4D5D91CE18BEE006E1B2A /* SwiftyJSON.framework */; };
+		C0D4D5DC1CE18BF2006E1B2A /* Sodium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D4D5DB1CE18BF2006E1B2A /* Sodium.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,8 +28,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		AC278CD61CE0662B0067AB6A /* Sodium.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sodium.framework; path = "Carthage/Checkouts/swift-sodium/build/Debug-iphoneos/Sodium.framework"; sourceTree = "<group>"; };
-		AC278CD81CE066320067AB6A /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "Carthage/Checkouts/SwiftyJSON/build/Debug-iphoneos/SwiftyJSON.framework"; sourceTree = "<group>"; };
 		AC830DBD1CAB221300DEAC85 /* AirMuler.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AirMuler.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC830DC01CAB221300DEAC85 /* AirMuler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AirMuler.h; sourceTree = "<group>"; };
 		AC830DC21CAB221300DEAC85 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -39,6 +37,8 @@
 		AC830DF11CAB38F400DEAC85 /* Crypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crypto.swift; sourceTree = "<group>"; };
 		ACDD573C1CAC4ECB007DEF68 /* NetworkProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkProtocol.swift; sourceTree = "<group>"; };
 		ACDD57451CAC5730007DEF68 /* DataPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataPacket.swift; sourceTree = "<group>"; };
+		C0D4D5D91CE18BEE006E1B2A /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "../../../../Library/Developer/Xcode/DerivedData/AirMuler-dsffwjpkedsuxogkyijpxckpzpzl/Build/Products/Debug-iphonesimulator/SwiftyJSON.framework"; sourceTree = "<group>"; };
+		C0D4D5DB1CE18BF2006E1B2A /* Sodium.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sodium.framework; path = "../../../../Library/Developer/Xcode/DerivedData/AirMuler-dsffwjpkedsuxogkyijpxckpzpzl/Build/Products/Debug-iphonesimulator/Sodium.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,8 +46,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC278CD91CE066320067AB6A /* SwiftyJSON.framework in Frameworks */,
-				AC278CD71CE0662B0067AB6A /* Sodium.framework in Frameworks */,
+				C0D4D5DC1CE18BF2006E1B2A /* Sodium.framework in Frameworks */,
+				C0D4D5DA1CE18BEE006E1B2A /* SwiftyJSON.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,8 +65,8 @@
 		AC830DB31CAB221300DEAC85 = {
 			isa = PBXGroup;
 			children = (
-				AC278CD81CE066320067AB6A /* SwiftyJSON.framework */,
-				AC278CD61CE0662B0067AB6A /* Sodium.framework */,
+				C0D4D5DB1CE18BF2006E1B2A /* Sodium.framework */,
+				C0D4D5D91CE18BEE006E1B2A /* SwiftyJSON.framework */,
 				AC830DBF1CAB221300DEAC85 /* AirMuler */,
 				AC830DCB1CAB221300DEAC85 /* AirMulerTests */,
 				AC830DBE1CAB221300DEAC85 /* Products */,
