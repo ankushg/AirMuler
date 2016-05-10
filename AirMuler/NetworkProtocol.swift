@@ -18,7 +18,13 @@ public protocol NetworkProtocolDelegate {
 
 struct NetworkProtocolConstants {
     static let maxBufferLength = 20
-    static let defaultTTL = 10 // hops
+    static let minTTL : UInt32 = 4
+    static let maxTTL : UInt32 = 20
+    static var defaultTTL : Int {
+        get {
+            return Int(arc4random_uniform(maxTTL - minTTL) + minTTL)
+        }
+    }
     static let serviceType = "pf-connector"
 }
 
