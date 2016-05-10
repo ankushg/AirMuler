@@ -185,8 +185,10 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     static func getLGChatMessageForMessage(message: Message) -> LGChatMessage {
-        let sender : LGChatMessage.SentBy = message.outgoing ? .User : .Opponent
-        return LGChatMessage(content: message.text, sentBy: sender, timeStamp: message.timestamp, delivered: message.delivered)
+        return LGChatMessage(content: message.text,
+                             sentBy: message.outgoing ? .User : .Opponent,
+                             timeStamp: message.timestamp,
+                             delivered: message.delivered)
     }
     
     static func makeLGMessages(userMessages : [Message]) -> [LGChatMessage] {
@@ -332,7 +334,10 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
                 // set delivered in the chat controller (assuming same index)
                 if (messagePublicKey == currentChatPubKey) {
                     self.chatController?.messages[index].delivered = true
-                    self.chatController?.reloadMessageAtIndexPath(NSIndexPath(forItem: index, inSection: 0))
+                    
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.chatController?.reloadMessageAtIndexPath(NSIndexPath(forItem: index, inSection: 0))
+                    })
                 }
                 
                 // save delivered status to CoreData

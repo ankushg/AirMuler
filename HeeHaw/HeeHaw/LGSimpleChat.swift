@@ -419,7 +419,7 @@ class LGChatController : UIViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func chatInput(chatInput: LGChatInput, didSendMessage message: String) {
-        let newMessage = LGChatMessage(content: message, sentBy: .User)
+        let newMessage = LGChatMessage(content: message, sentBy: .User, timeStamp: NSDate().timeIntervalSince1970, delivered: false)
         var shouldSendMessage = true
         if let value = self.delegate?.shouldChatController?(self, addMessage: newMessage) {
             shouldSendMessage = value
