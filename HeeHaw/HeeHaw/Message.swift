@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 
+@objc(Message)
 class Message: NSManagedObject {
     
     @NSManaged var alias: String

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15F31a" minimumToolsVersion="Automatic">
-    <entity name="Message" representedClassName="HeeHaw.Message" syncable="YES">
+    <entity name="Message" representedClassName="Message" syncable="YES">
         <attribute name="alias" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="outgoing" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="publicKey" optional="YES" attributeType="String" syncable="YES"/>
