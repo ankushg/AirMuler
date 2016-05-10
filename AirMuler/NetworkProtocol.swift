@@ -81,8 +81,8 @@ public class NetworkProtocol: NSObject, MCSessionDelegate, MCNearbyServiceAdvert
         print("Started browsing for peers!")
     }
     
-    public func sendMessage(message: NSData, to recipient: PublicKey) {
-        if let encrypted = SodiumCryptoProvider.encryptMessage(message, with: self.keyPair, to: recipient) {
+    public func sendMessage(message: NSData, to recipient: PublicKey) throws {
+        if let encrypted = try SodiumCryptoProvider.encryptMessage(message, with: self.keyPair, to: recipient) {
             let packet = DataPacket(blob: encrypted, ttl: NetworkProtocolConstants.defaultTTL)
             self.acceptPacket(packet, to: &contentBuffer)
         }

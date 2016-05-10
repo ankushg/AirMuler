@@ -31,20 +31,14 @@ struct MessageContainer {
 	let ackMessage: AckMessage?
 	let contentMessage: ContentMessage?
     
-    func toJSON() -> NSData? {
-        var props: NSDictionary = [:]
+    func toJSON() throws -> NSData? {
+        var props: JSON = [:]
         if messageType == MessageType.Ack {
-            props = ["messageType": messageType.rawValue, "ackMessage": ackMessage!.toJSON()!]
+            props = try ["messageType": messageType.rawValue, "ackMessage": ackMessage!.toJSON()!.base64EncodedStringWithOptions([])]
         } else if messageType == MessageType.Content {
-            props = ["messageType": messageType.rawValue, "contentMessage": contentMessage!.toJSON()!]
+            props = try ["messageType": messageType.rawValue, "contentMessage": contentMessage!.toJSON()!.base64EncodedStringWithOptions([])]
         }
-        do {
-            let jsonData = try NSJSONSerialization.dataWithJSONObject(props, options: [])
-            return jsonData
-        } catch let error {
-            print("error converting to json: \(error)")
-            return nil
-        }
+        return try props.rawData()
     }
 }
 
@@ -54,15 +48,9 @@ struct ContentMessage {
 	let dispatchEnc: NSData
 	let dispatchKeyEnc: NSData
     
-    func toJSON() -> NSData? {
-        let props = ["uuid": uuid, "uuidEnc": uuidEnc, "dispatchEnc": dispatchEnc, "dispatchKeyEnc": dispatchKeyEnc]
-        do {
-            let jsonData = try NSJSONSerialization.dataWithJSONObject(props, options: [])
-            return jsonData
-        } catch let error {
-            print("error converting to json: \(error)")
-            return nil
-        }
+    func toJSON() throws -> NSData? {
+        let props: JSON = ["uuid": uuid.base64EncodedStringWithOptions([]), "uuidEnc": uuidEnc.base64EncodedStringWithOptions([]), "dispatchEnc": dispatchEnc.base64EncodedStringWithOptions([]), "dispatchKeyEnc": dispatchKeyEnc.base64EncodedStringWithOptions([])]
+        return try props.rawData()
     }
 }
 
@@ -70,15 +58,9 @@ struct AckMessage {
 	let uuid: PublicKey;
 	let ackKey: NSData;
     
-    func toJSON() -> NSData? {
-        let props = ["uuid": uuid, "ackKey": ackKey]
-        do {
-            let jsonData = try NSJSONSerialization.dataWithJSONObject(props, options: [])
-            return jsonData
-        } catch let error {
-            print("error converting to json: \(error)")
-            return nil
-        }
+    func toJSON() throws -> NSData? {
+        let props: JSON = ["uuid": uuid.base64EncodedStringWithOptions([]), "ackKey": ackKey.base64EncodedStringWithOptions([])]
+        return try props.rawData()
     }
 }
 
@@ -87,15 +69,9 @@ struct Dispatch {
 	let senderPublicKey: PublicKey
 	let ackKey: NSData
     
-    func toJSON() -> NSData? {
-        let props = ["payloadEnc": payloadEnc, "senderPublicKey": senderPublicKey, "ackKey": ackKey]
-        do {
-            let jsonData = try NSJSONSerialization.dataWithJSONObject(props, options: [])
-            return jsonData
-        } catch let error {
-            print("error converting to json: \(error)")
-            return nil
-        }
+    func toJSON() throws -> NSData? {
+        let props: JSON = ["payloadEnc": payloadEnc.base64EncodedStringWithOptions([]), "senderPublicKey": senderPublicKey.base64EncodedStringWithOptions([]), "ackKey": ackKey.base64EncodedStringWithOptions([])]
+        return try props.rawData()
     }
 }
 
@@ -107,7 +83,7 @@ public enum CryptoProviderError : ErrorType {
 
 protocol CryptoProvider {
     static func genKeyPair() -> KeyPair
-    static func encryptMessage(message: NSData, with keyPair: KeyPair, to recipient: PublicKey) -> NSData?
+    static func encryptMessage(message: NSData, with keyPair: KeyPair, to recipient: PublicKey) throws -> NSData?
     static func decryptMessage(message: NSData, with keyPair: KeyPair) throws -> (payload: NSData?, from: PublicKey, ackMessage: NSData?)
     static func getMessageType(message: NSData) -> MessageType?
     static func checkBuffer(buffer: [NSData], against ackMessage: NSData) throws -> Int?
@@ -120,7 +96,7 @@ class SodiumCryptoProvider : CryptoProvider {
         return sodium.box.keyPair()!
     }
     
-    static func encryptMessage(payload: NSData, with keyPair: KeyPair, to recipient: PublicKey) -> NSData? {
+    static func encryptMessage(payload: NSData, with keyPair: KeyPair, to recipient: PublicKey) throws -> NSData? {
         let ephemeralKey = sodium.box.keyPair()!
         
         let uuid = ephemeralKey.publicKey
@@ -133,31 +109,33 @@ class SodiumCryptoProvider : CryptoProvider {
         let payloadEnc: NSData = sodium.box.seal(payload, recipientPublicKey: recipient, senderSecretKey: keyPair.secretKey)!
         
         var dispatch = Dispatch(payloadEnc: payloadEnc, senderPublicKey: keyPair.publicKey, ackKey: ackKey)
-        let dispatchEnc: NSData = sodium.secretBox.seal(dispatch.toJSON()!, secretKey: dispatchKey)!
+        let dispatchEnc: NSData = try sodium.secretBox.seal(dispatch.toJSON()!, secretKey: dispatchKey)!
         
         let message = ContentMessage(uuid: uuid, uuidEnc: uuidEnc, dispatchEnc: dispatchEnc, dispatchKeyEnc: dispatchKeyEnc)
         
         var messageContainer = MessageContainer(messageType: MessageType.Content, ackMessage: nil, contentMessage: message)
-        return messageContainer.toJSON()!
+        return try messageContainer.toJSON()!
     }
     
     static func decryptMessage(message: NSData, with keyPair: KeyPair) throws -> (payload: NSData?, from: PublicKey, ackMessage: NSData?) {
         let messageContainer = JSON(data: message)
         
-        let contentMessageData = try messageContainer["contentMessage"].rawData()
-        let contentMessage = JSON(data:contentMessageData)
+        let contentMessageData = NSData(base64EncodedString: messageContainer["contentMessage"].string!, options: [])
+        let contentMessage = JSON(data:contentMessageData!)
         if let
-            dispatchKey = try sodium.box.open(contentMessage["dispatchKeyEnc"].rawData(), senderPublicKey: contentMessage["uuid"].rawData(), recipientSecretKey: keyPair.secretKey),
-            dispatchData = try sodium.secretBox.open(contentMessage["dispatchEnc"].rawData(), secretKey: dispatchKey)
+            dispatchKey = try sodium.box.open(
+                NSData(base64EncodedString:contentMessage["dispatchKeyEnc"].string!, options:[])!,
+                senderPublicKey: NSData(base64EncodedString:contentMessage["uuid"].string!, options:[])!,recipientSecretKey: keyPair.secretKey),
+            dispatchData = try sodium.secretBox.open(NSData(base64EncodedString:contentMessage["dispatchEnc"].string!, options: [])!, secretKey: dispatchKey)
         {
           
             let dispatch = JSON(data: dispatchData)
           
-            if let payload = try sodium.box.open(dispatch["payloadEnc"].rawData(), senderPublicKey: dispatch["senderPublicKey"].rawData(), recipientSecretKey: keyPair.secretKey) {
-                let ackMessage = try AckMessage(uuid: contentMessage["uuid"].rawData(), ackKey: dispatch["ackKey"].rawData())
+            if let payload = try sodium.box.open(NSData(base64EncodedString:dispatch["payloadEnc"].string!, options: [])!, senderPublicKey: NSData(base64EncodedString:dispatch["senderPublicKey"].string!, options: [])!, recipientSecretKey: keyPair.secretKey) {
+                let ackMessage = try AckMessage(uuid: NSData(base64EncodedString:contentMessage["uuid"].string!, options: [])!, ackKey: NSData(base64EncodedString:dispatch["ackKey"].string!, options: [])!)
                 var messageContainer = MessageContainer(messageType: MessageType.Ack, ackMessage: ackMessage, contentMessage: nil)
                 
-                return try (payload: payload, from: dispatch["senderPublicKey"].rawData(), ackMessage: messageContainer.toJSON()!)
+                return try (payload: payload, from: NSData(base64EncodedString:dispatch["senderPublicKey"].string!, options: [])!, ackMessage: messageContainer.toJSON()!)
             } else {
                 throw CryptoProviderError.CannotDecryptMessage
             }
@@ -174,17 +152,17 @@ class SodiumCryptoProvider : CryptoProvider {
     
     static func checkBuffer(buffer: [NSData], against ackMessage: NSData) throws -> Int? {
         let ackMessageContainer = JSON(data: ackMessage)
-        let ackMessageData = try ackMessageContainer["ackMessage"].rawData()
+        let ackMessageData = NSData(base64EncodedString:ackMessageContainer["ackMessage"].string!, options: [])!
         let ackMessage = JSON(data:ackMessageData)
         
         for (index, message) in buffer.enumerate() {
             let messageContainer = JSON(data: message)
-            let contentMessageData = try messageContainer["contentMessage"].rawData()
+            let contentMessageData = NSData(base64EncodedString:messageContainer["contentMessage"].string!, options:[])!
             let contentMessage = JSON(data:contentMessageData)
             
-            if try (contentMessage["uuid"].rawData() == ackMessage["uuid"].rawData()) {
-                let keyCheck = try sodium.secretBox.open(contentMessage["uuidEnc"].rawData(), secretKey: ackMessage["ackKey"].rawData())
-                if try (keyCheck == contentMessage["uuid"].rawData()) {
+            if (contentMessage["uuid"].string == ackMessage["uuid"].string) {
+                let keyCheck = sodium.secretBox.open(NSData(base64EncodedString:contentMessage["uuidEnc"].string!, options: [])!, secretKey: NSData(base64EncodedString:ackMessage["ackKey"].string!, options: [])!)
+                if try (keyCheck == NSData(base64EncodedString:contentMessage["uuid"].string!, options: [])) {
                     return index
                 } else {
                     throw CryptoProviderError.InvalidAckMessage

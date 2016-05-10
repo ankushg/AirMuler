@@ -55,8 +55,8 @@
 		AC830DF11CAB38F400DEAC85 /* Crypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crypto.swift; sourceTree = "<group>"; };
 		ACDD573C1CAC4ECB007DEF68 /* NetworkProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkProtocol.swift; sourceTree = "<group>"; };
 		ACDD57451CAC5730007DEF68 /* DataPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataPacket.swift; sourceTree = "<group>"; };
-		C0D4D5F81CE1AEC2006E1B2A /* Sodium.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sodium.framework; path = "../../../../Library/Developer/Xcode/DerivedData/AirMuler-dsffwjpkedsuxogkyijpxckpzpzl/Build/Products/Debug-iphoneos/Sodium.framework"; sourceTree = "<group>"; };
-		C0D4D5FB1CE1AEEF006E1B2A /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "../../../../Library/Developer/Xcode/DerivedData/AirMuler-dsffwjpkedsuxogkyijpxckpzpzl/Build/Products/Debug-iphoneos/SwiftyJSON.framework"; sourceTree = "<group>"; };
+		C0D4D5F81CE1AEC2006E1B2A /* Sodium.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sodium.framework; path = "../../../../Library/Developer/Xcode/DerivedData/AirMuler-dsffwjpkedsuxogkyijpxckpzpzl/Build/Products/Debug-iphoneos/Sodium.framework"; sourceTree = SOURCE_ROOT; };
+		C0D4D5FB1CE1AEEF006E1B2A /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "../../../../Library/Developer/Xcode/DerivedData/AirMuler-dsffwjpkedsuxogkyijpxckpzpzl/Build/Products/Debug-iphoneos/SwiftyJSON.framework"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
