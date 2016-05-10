@@ -275,10 +275,10 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
     
     // MARK: NetworkProtocolDelegate
     func receivedMessage(messageData: NSData?, from publicKey: PublicKey) {
-        let messageObj = JSON(messageData!)
+        let messageObj = JSON(data:messageData!)
         
         if let messageText = messageObj["message"].string, timestamp = messageObj["timestamp"].double {
-            let messagePublicKey = String(data: publicKey, encoding: NSUTF8StringEncoding)!
+            let messagePublicKey = publicKey.base64EncodedStringWithOptions([])
             let time = NSDate(timeIntervalSince1970: timestamp)
             
             if let previousMessages = self.messages[messagePublicKey] {
