@@ -7,13 +7,17 @@
    <FileRef
       location = "container:AirMuler.xcodeproj">
    </FileRef>
-   <FileRef
-      location = "group:Carthage/Checkouts/ActionSheetPicker-3.0/CoreActionSheetPicker/CoreActionSheetPicker.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:Carthage/Checkouts/swift-sodium/Sodium.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:Carthage/Checkouts/SwiftyJSON/SwiftyJSON.xcodeproj">
-   </FileRef>
+   <Group
+      location = "container:"
+      name = "Frameworks">
+      <FileRef
+         location = "group:Carthage/Checkouts/SwiftyJSON/../ActionSheetPicker-3.0/CoreActionSheetPicker/CoreActionSheetPicker.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Carthage/Checkouts/swift-sodium/Sodium.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:Carthage/Checkouts/SwiftyJSON/SwiftyJSON.xcodeproj">
+      </FileRef>
+   </Group>
 </Workspace>

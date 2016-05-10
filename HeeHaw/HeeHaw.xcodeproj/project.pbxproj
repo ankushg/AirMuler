@@ -14,24 +14,25 @@
 		ACD270E01CE00CA200C719A8 /* HeeHaw.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = ACD270DE1CE00CA200C719A8 /* HeeHaw.xcdatamodeld */; };
 		ACD270E51CE0116200C719A8 /* LGSimpleChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD270E41CE0116200C719A8 /* LGSimpleChat.swift */; };
 		ACD270F71CE05A8800C719A8 /* ThreadTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD270F61CE05A8800C719A8 /* ThreadTableViewCell.swift */; };
-		C0D4D5EF1CE1ADF8006E1B2A /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D4D5EE1CE1ADF8006E1B2A /* SwiftyJSON.framework */; };
-		C0D4D5F01CE1ADF8006E1B2A /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C0D4D5EE1CE1ADF8006E1B2A /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C0D4D5F21CE1ADFC006E1B2A /* CoreActionSheetPicker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D4D5F11CE1ADFC006E1B2A /* CoreActionSheetPicker.framework */; };
-		C0D4D5F31CE1ADFC006E1B2A /* CoreActionSheetPicker.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C0D4D5F11CE1ADFC006E1B2A /* CoreActionSheetPicker.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C0D4D6031CE1AFE9006E1B2A /* AirMuler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D4D6021CE1AFE9006E1B2A /* AirMuler.framework */; };
-		C0D4D6041CE1AFE9006E1B2A /* AirMuler.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C0D4D6021CE1AFE9006E1B2A /* AirMuler.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		ACDFB9021CE1B4E000C93FE9 /* AirMuler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACDFB8F41CE1B39600C93FE9 /* AirMuler.framework */; };
+		ACDFB9031CE1B4E000C93FE9 /* AirMuler.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = ACDFB8F41CE1B39600C93FE9 /* AirMuler.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		ACDFB9041CE1B4E000C93FE9 /* CoreActionSheetPicker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACDFB8F51CE1B39600C93FE9 /* CoreActionSheetPicker.framework */; };
+		ACDFB9051CE1B4E000C93FE9 /* CoreActionSheetPicker.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = ACDFB8F51CE1B39600C93FE9 /* CoreActionSheetPicker.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		ACDFB9061CE1B4E000C93FE9 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACDFB8F61CE1B39600C93FE9 /* SwiftyJSON.framework */; };
+		ACDFB9071CE1B4E000C93FE9 /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = ACDFB8F61CE1B39600C93FE9 /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		ACDFB90A1CE1BB1B00C93FE9 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACDFB9091CE1BB1B00C93FE9 /* Launch Screen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		C0D4D5E61CE1AD52006E1B2A /* Embed Frameworks */ = {
+		ACDFB9081CE1B4E000C93FE9 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C0D4D5F31CE1ADFC006E1B2A /* CoreActionSheetPicker.framework in Embed Frameworks */,
-				C0D4D5F01CE1ADF8006E1B2A /* SwiftyJSON.framework in Embed Frameworks */,
-				C0D4D6041CE1AFE9006E1B2A /* AirMuler.framework in Embed Frameworks */,
+				ACDFB9031CE1B4E000C93FE9 /* AirMuler.framework in Embed Frameworks */,
+				ACDFB9051CE1B4E000C93FE9 /* CoreActionSheetPicker.framework in Embed Frameworks */,
+				ACDFB9071CE1B4E000C93FE9 /* SwiftyJSON.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -48,9 +49,10 @@
 		ACD270DF1CE00CA200C719A8 /* SkipChat.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SkipChat.xcdatamodel; sourceTree = "<group>"; };
 		ACD270E41CE0116200C719A8 /* LGSimpleChat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSimpleChat.swift; sourceTree = "<group>"; };
 		ACD270F61CE05A8800C719A8 /* ThreadTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreadTableViewCell.swift; sourceTree = "<group>"; };
-		C0D4D5EE1CE1ADF8006E1B2A /* SwiftyJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = SwiftyJSON.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/AirMuler-dsffwjpkedsuxogkyijpxckpzpzl/Build/Products/Debug-iphoneos/SwiftyJSON.framework"; sourceTree = SOURCE_ROOT; };
-		C0D4D5F11CE1ADFC006E1B2A /* CoreActionSheetPicker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = CoreActionSheetPicker.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/AirMuler-dsffwjpkedsuxogkyijpxckpzpzl/Build/Products/Debug-iphoneos/CoreActionSheetPicker.framework"; sourceTree = SOURCE_ROOT; };
-		C0D4D6021CE1AFE9006E1B2A /* AirMuler.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = AirMuler.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/AirMuler-dsffwjpkedsuxogkyijpxckpzpzl/Build/Products/Debug-iphoneos/AirMuler.framework"; sourceTree = SOURCE_ROOT; };
+		ACDFB8F41CE1B39600C93FE9 /* AirMuler.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AirMuler.framework; path = "../../../Library/Developer/Xcode/DerivedData/AirMuler-abwsqrpresbelwdzmamkkyjhhciz/Build/Products/Debug-iphoneos/AirMuler.framework"; sourceTree = "<group>"; };
+		ACDFB8F51CE1B39600C93FE9 /* CoreActionSheetPicker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreActionSheetPicker.framework; path = "../../../Library/Developer/Xcode/DerivedData/AirMuler-abwsqrpresbelwdzmamkkyjhhciz/Build/Products/Debug-iphoneos/CoreActionSheetPicker.framework"; sourceTree = "<group>"; };
+		ACDFB8F61CE1B39600C93FE9 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "../../../Library/Developer/Xcode/DerivedData/AirMuler-abwsqrpresbelwdzmamkkyjhhciz/Build/Products/Debug-iphoneos/SwiftyJSON.framework"; sourceTree = "<group>"; };
+		ACDFB9091CE1BB1B00C93FE9 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,9 +60,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C0D4D5F21CE1ADFC006E1B2A /* CoreActionSheetPicker.framework in Frameworks */,
-				C0D4D5EF1CE1ADF8006E1B2A /* SwiftyJSON.framework in Frameworks */,
-				C0D4D6031CE1AFE9006E1B2A /* AirMuler.framework in Frameworks */,
+				ACDFB9021CE1B4E000C93FE9 /* AirMuler.framework in Frameworks */,
+				ACDFB9041CE1B4E000C93FE9 /* CoreActionSheetPicker.framework in Frameworks */,
+				ACDFB9061CE1B4E000C93FE9 /* SwiftyJSON.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,9 +72,9 @@
 		ACD270AE1CE00BA500C719A8 = {
 			isa = PBXGroup;
 			children = (
-				C0D4D6021CE1AFE9006E1B2A /* AirMuler.framework */,
-				C0D4D5F11CE1ADFC006E1B2A /* CoreActionSheetPicker.framework */,
-				C0D4D5EE1CE1ADF8006E1B2A /* SwiftyJSON.framework */,
+				ACDFB8F41CE1B39600C93FE9 /* AirMuler.framework */,
+				ACDFB8F51CE1B39600C93FE9 /* CoreActionSheetPicker.framework */,
+				ACDFB8F61CE1B39600C93FE9 /* SwiftyJSON.framework */,
 				ACD270B91CE00BA500C719A8 /* HeeHaw */,
 				ACD270B81CE00BA500C719A8 /* Products */,
 			);
@@ -97,6 +99,7 @@
 				ACD270C41CE00BA500C719A8 /* Assets.xcassets */,
 				ACD270C91CE00BA500C719A8 /* Info.plist */,
 				ACD270DE1CE00CA200C719A8 /* HeeHaw.xcdatamodeld */,
+				ACDFB9091CE1BB1B00C93FE9 /* Launch Screen.storyboard */,
 			);
 			path = HeeHaw;
 			sourceTree = "<group>";
@@ -111,7 +114,7 @@
 				ACD270B31CE00BA500C719A8 /* Sources */,
 				ACD270B41CE00BA500C719A8 /* Frameworks */,
 				ACD270B51CE00BA500C719A8 /* Resources */,
-				C0D4D5E61CE1AD52006E1B2A /* Embed Frameworks */,
+				ACDFB9081CE1B4E000C93FE9 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -134,7 +137,7 @@
 				TargetAttributes = {
 					ACD270B61CE00BA500C719A8 = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = 5S369Z8BU6;
+						DevelopmentTeam = 5YEZ95FQB7;
 					};
 				};
 			};
@@ -161,6 +164,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACDFB90A1CE1BB1B00C93FE9 /* Launch Screen.storyboard in Resources */,
 				ACD270C51CE00BA500C719A8 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -273,14 +277,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = HeeHaw/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ankushg.HeeHaw87;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ankushg.HeeHaw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -288,14 +294,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = HeeHaw/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ankushg.HeeHaw87;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ankushg.HeeHaw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

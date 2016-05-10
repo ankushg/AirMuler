@@ -13,12 +13,10 @@
 		AC830DF21CAB38F400DEAC85 /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC830DF11CAB38F400DEAC85 /* Crypto.swift */; };
 		ACDD573D1CAC4ECB007DEF68 /* NetworkProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDD573C1CAC4ECB007DEF68 /* NetworkProtocol.swift */; };
 		ACDD57461CAC5730007DEF68 /* DataPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDD57451CAC5730007DEF68 /* DataPacket.swift */; };
-		C0D4D5F91CE1AEC2006E1B2A /* Sodium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D4D5F81CE1AEC2006E1B2A /* Sodium.framework */; };
-		C0D4D5FA1CE1AEE7006E1B2A /* Sodium.framework in Resources */ = {isa = PBXBuildFile; fileRef = C0D4D5F81CE1AEC2006E1B2A /* Sodium.framework */; };
-		C0D4D5FC1CE1AEEF006E1B2A /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D4D5FB1CE1AEEF006E1B2A /* SwiftyJSON.framework */; };
-		C0D4D5FE1CE1AF0A006E1B2A /* SwiftyJSON.framework in Resources */ = {isa = PBXBuildFile; fileRef = C0D4D5FB1CE1AEEF006E1B2A /* SwiftyJSON.framework */; };
-		C0D4D6001CE1AFA4006E1B2A /* Sodium.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C0D4D5F81CE1AEC2006E1B2A /* Sodium.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C0D4D6011CE1AFA7006E1B2A /* SwiftyJSON.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C0D4D5FB1CE1AEEF006E1B2A /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		ACDFB8FE1CE1B49F00C93FE9 /* Sodium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACDFB8DD1CE1B21F00C93FE9 /* Sodium.framework */; };
+		ACDFB8FF1CE1B49F00C93FE9 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACDFB8DE1CE1B21F00C93FE9 /* SwiftyJSON.framework */; };
+		ACDFB9001CE1B4AA00C93FE9 /* Sodium.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = ACDFB8DD1CE1B21F00C93FE9 /* Sodium.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		ACDFB9011CE1B4AA00C93FE9 /* SwiftyJSON.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = ACDFB8DE1CE1B21F00C93FE9 /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,8 +36,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C0D4D6011CE1AFA7006E1B2A /* SwiftyJSON.framework in CopyFiles */,
-				C0D4D6001CE1AFA4006E1B2A /* Sodium.framework in CopyFiles */,
+				ACDFB9001CE1B4AA00C93FE9 /* Sodium.framework in CopyFiles */,
+				ACDFB9011CE1B4AA00C93FE9 /* SwiftyJSON.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,8 +53,8 @@
 		AC830DF11CAB38F400DEAC85 /* Crypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crypto.swift; sourceTree = "<group>"; };
 		ACDD573C1CAC4ECB007DEF68 /* NetworkProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkProtocol.swift; sourceTree = "<group>"; };
 		ACDD57451CAC5730007DEF68 /* DataPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataPacket.swift; sourceTree = "<group>"; };
-		C0D4D5F81CE1AEC2006E1B2A /* Sodium.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sodium.framework; path = "../../../../Library/Developer/Xcode/DerivedData/AirMuler-dsffwjpkedsuxogkyijpxckpzpzl/Build/Products/Debug-iphoneos/Sodium.framework"; sourceTree = SOURCE_ROOT; };
-		C0D4D5FB1CE1AEEF006E1B2A /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "../../../../Library/Developer/Xcode/DerivedData/AirMuler-dsffwjpkedsuxogkyijpxckpzpzl/Build/Products/Debug-iphoneos/SwiftyJSON.framework"; sourceTree = SOURCE_ROOT; };
+		ACDFB8DD1CE1B21F00C93FE9 /* Sodium.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sodium.framework; path = "../../Library/Developer/Xcode/DerivedData/AirMuler-abwsqrpresbelwdzmamkkyjhhciz/Build/Products/Debug-iphoneos/Sodium.framework"; sourceTree = "<group>"; };
+		ACDFB8DE1CE1B21F00C93FE9 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "../../Library/Developer/Xcode/DerivedData/AirMuler-abwsqrpresbelwdzmamkkyjhhciz/Build/Products/Debug-iphoneos/SwiftyJSON.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,8 +62,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C0D4D5FC1CE1AEEF006E1B2A /* SwiftyJSON.framework in Frameworks */,
-				C0D4D5F91CE1AEC2006E1B2A /* Sodium.framework in Frameworks */,
+				ACDFB8FE1CE1B49F00C93FE9 /* Sodium.framework in Frameworks */,
+				ACDFB8FF1CE1B49F00C93FE9 /* SwiftyJSON.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,8 +81,8 @@
 		AC830DB31CAB221300DEAC85 = {
 			isa = PBXGroup;
 			children = (
-				C0D4D5FB1CE1AEEF006E1B2A /* SwiftyJSON.framework */,
-				C0D4D5F81CE1AEC2006E1B2A /* Sodium.framework */,
+				ACDFB8DD1CE1B21F00C93FE9 /* Sodium.framework */,
+				ACDFB8DE1CE1B21F00C93FE9 /* SwiftyJSON.framework */,
 				AC830DBF1CAB221300DEAC85 /* AirMuler */,
 				AC830DCB1CAB221300DEAC85 /* AirMulerTests */,
 				AC830DBE1CAB221300DEAC85 /* Products */,
@@ -184,7 +182,7 @@
 				TargetAttributes = {
 					AC830DBC1CAB221300DEAC85 = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = 5S369Z8BU6;
+						DevelopmentTeam = 5YEZ95FQB7;
 					};
 					AC830DC61CAB221300DEAC85 = {
 						CreatedOnToolsVersion = 7.3;
@@ -214,8 +212,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C0D4D5FE1CE1AF0A006E1B2A /* SwiftyJSON.framework in Resources */,
-				C0D4D5FA1CE1AEE7006E1B2A /* Sodium.framework in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

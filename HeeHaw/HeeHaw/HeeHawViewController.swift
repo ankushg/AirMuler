@@ -241,9 +241,8 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
             let row = picker.selectedRowInComponent(0)
             if (row > -1) {
                 self.currentChatPubKey = contacts[row]
-            }
-            
-            self.showChatForCurrentPubKey()
+                self.showChatForCurrentPubKey()
+            }            
         }
         
     }
