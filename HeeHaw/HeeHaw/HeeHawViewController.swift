@@ -33,7 +33,6 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
     override init(nibName nibNameOrNil: String!, bundle nibBundleOrNil: NSBundle!) {
         self.networkingLayer = NetworkProtocol.sharedInstance
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        self.networkingLayer.delegate = self
     }
     
     convenience init() {
@@ -63,10 +62,7 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
         self.navigationController?.topViewController?.navigationItem.leftBarButtonItem = leftButton
         let rightButton = UIBarButtonItem(barButtonSystemItem: .Compose, target: self, action: #selector(composeNewMessage))
         self.navigationController?.topViewController?.navigationItem.rightBarButtonItem = rightButton
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
+        
         self.networkingLayer.delegate = self
     }
     
