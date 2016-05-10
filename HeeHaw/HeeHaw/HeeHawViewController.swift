@@ -112,6 +112,20 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
         ActionSheetCustomPicker.showPickerWithTitle("Choose recipient", delegate: self, showCancelButton: true, origin: self.view)
     }
     
+    func processNewMessage(message: Message) {
+        var personMessages: [Message] = []
+        if let messages = messages[message.publicKey] {
+            personMessages = messages
+        } else {
+            self.contacts.insert(message.publicKey, atIndex: 0)
+        }
+        
+        personMessages.append(message)
+        aliases[message.publicKey] = message.alias
+        
+        messages[message.publicKey] = personMessages
+    }
+    
     func fetchMessages() {
         let fetchRequest = NSFetchRequest(entityName: "Message")
         let sortDescriptor = NSSortDescriptor(key: "timestamp", ascending: true)
@@ -122,26 +136,32 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
         aliases = [:]
         
         do {
-            if let allMessages = try managedObjectContext!.executeFetchRequest(fetchRequest) as? [Message] {
-                for message in allMessages {
-                    var personMessages: [Message] = []
-                    if let messages = messages[message.publicKey] {
-                        personMessages = messages
-                    } else {
-                        self.contacts.insert(message.publicKey, atIndex: 0)
-                    }
-                    
-                    aliases[message.publicKey] = message.alias
-                    
-                    personMessages.append(message)
-                    messages[message.publicKey] = personMessages
-                }
-            }
+            try (managedObjectContext!.executeFetchRequest(fetchRequest) as? [Message])?.forEach(processNewMessage)
         } catch let error as NSError {
             print("Fetch failed: \(error.localizedDescription)")
         }
         
         self.threadTable.reloadData()
+    }
+    
+    func saveMessage(message: String, with alias : String, isOutgoing: Bool, withKey publicKey: String, at time: NSDate) {
+        if let moc = self.managedObjectContext {
+            let newMessage = Message.createInManagedObjectContext(moc,
+              peer: alias,
+              publicKey: publicKey,
+              text: message,
+              outgoing: isOutgoing,
+              contactDate: time)
+            
+            do {
+                try moc.save()
+                processNewMessage(newMessage)
+                self.threadTable.reloadData()
+            } catch let error as NSError {
+                print("Unresolved error \(error), \(error.userInfo)")
+                abort()
+            }
+        }
     }
     
     func showChatForCurrentPubKey() {
@@ -154,26 +174,6 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
             chatController?.messages = getMessagesForPublicKey(pubKey)
             self.navigationController?.pushViewController(chatController!, animated: true)
             chatController?.title = getAliasFromPublicKey(pubKey)
-        }
-    }
-    
-    func saveMessage(message: String, with alias : String, isOutgoing: Bool, withKey publicKey: String, at time: NSDate) {
-        if let moc = self.managedObjectContext {
-            Message.createInManagedObjectContext(moc,
-                                                 peer: alias,
-                                                 publicKey: publicKey,
-                                                 text: message,
-                                                 outgoing: isOutgoing,
-                                                 contactDate: time
-            )
-            
-            do {
-                try moc.save()
-                self.fetchMessages()
-            } catch let error as NSError {
-                print("Unresolved error \(error), \(error.userInfo)")
-                abort()
-            }
         }
     }
     
