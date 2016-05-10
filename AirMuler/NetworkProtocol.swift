@@ -10,10 +10,10 @@ import Foundation
 import MultipeerConnectivity
 import SwiftyJSON
 
-@objc public protocol NetworkProtocolDelegate {
-    optional func connectedWithKey(key: NSData?)
+public protocol NetworkProtocolDelegate {
+    func connectedWithKey(key: PublicKey)
     func receivedMessage(message: NSData?, from publicKey: PublicKey)
-    optional func acknowledgedDeliveryOfMessage(message: NSData?, to publicKey: PublicKey)
+    func acknowledgedDeliveryOfMessage(message: NSData?, to publicKey: PublicKey)
 }
 
 struct NetworkProtocolConstants {
@@ -58,7 +58,7 @@ public class NetworkProtocol: NSObject, MCSessionDelegate, MCNearbyServiceAdvert
     var keyPair : KeyPair
     public var delegate : NetworkProtocolDelegate? {
         willSet {
-            newValue?.connectedWithKey?(keyPair.publicKey)
+            newValue?.connectedWithKey(keyPair.publicKey)
         }
     }
     
@@ -178,7 +178,7 @@ public class NetworkProtocol: NSObject, MCSessionDelegate, MCNearbyServiceAdvert
                     print("Received ack for message!")
                     
                     if let (message, recipient) = checkSentBuffer(for: packet){
-                        self.delegate?.acknowledgedDeliveryOfMessage?(message, to: recipient)
+                        self.delegate?.acknowledgedDeliveryOfMessage(message, to: recipient)
                     } else {
                         print("Ack is not for message sent by us")
                     }

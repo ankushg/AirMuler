@@ -28,7 +28,6 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
     required init?(coder aDecoder: NSCoder) {
         self.networkingLayer = NetworkProtocol.sharedInstance
         super.init(coder: aDecoder)
-        self.networkingLayer.delegate = self
     }
     
     override init(nibName nibNameOrNil: String!, bundle nibBundleOrNil: NSBundle!) {
@@ -64,6 +63,11 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
         self.navigationController?.topViewController?.navigationItem.leftBarButtonItem = leftButton
         let rightButton = UIBarButtonItem(barButtonSystemItem: .Compose, target: self, action: #selector(composeNewMessage))
         self.navigationController?.topViewController?.navigationItem.rightBarButtonItem = rightButton
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        self.networkingLayer.delegate = self
     }
     
     override func didReceiveMemoryWarning() {
@@ -295,6 +299,15 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     // MARK: NetworkProtocolDelegate
+    func connectedWithKey(key: PublicKey) {
+        UIPasteboard.generalPasteboard().string = key.base64EncodedStringWithOptions([])
+        
+        let alert = UIAlertController(title: "Welcome", message: "Your public key has been copied to your pasteboard!", preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
+        presentViewController(alert, animated: true, completion: nil)
+        
+    }
+    
     func receivedMessage(messageData: NSData?, from publicKey: PublicKey) {
         let messageObj = JSON(data: messageData!)
         
@@ -319,8 +332,6 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
                     })
                 }
             }
-            
-
         }
     }
     
@@ -349,7 +360,6 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
                     fatalError("Failure to save context: \(error)")
                 }
             }
-            
         }
     }
 }
