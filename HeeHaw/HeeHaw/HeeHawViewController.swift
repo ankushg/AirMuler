@@ -64,8 +64,6 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
         self.navigationController?.topViewController?.navigationItem.leftBarButtonItem = leftButton
         let rightButton = UIBarButtonItem(barButtonSystemItem: .Compose, target: self, action: #selector(composeNewMessage))
         self.navigationController?.topViewController?.navigationItem.rightBarButtonItem = rightButton
-        
-        chatController.delegate = self
     }
     
     override func didReceiveMemoryWarning() {
@@ -128,9 +126,7 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
                         self.contacts.insert(message.publicKey, atIndex: 0)
                     }
                     
-                    if(message.alias != "Me") {
-                        aliases[message.publicKey] = message.alias
-                    }
+                    aliases[message.publicKey] = message.alias
                     
                     personMessages.append(message)
                     messages[message.publicKey] = personMessages
@@ -146,24 +142,29 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
     func showChatForCurrentPubKey() {
         if let pubKey = currentChatPubKey {
             print("Pushing Chat controller")
+            
+            chatController = LGChatController()
+            chatController.delegate = self
+            
             chatController.messages = getMessagesForPublicKey(pubKey)
             self.navigationController?.pushViewController(chatController, animated: true)
             chatController.title = getAliasFromPublicKey(pubKey)
         }
     }
     
-    func saveMessage(message: String, from sender : String, withKey publicKey: String, at time: NSDate) {
+    func saveMessage(message: String, with alias : String, isOutgoing: Bool, withKey publicKey: String, at time: NSDate) {
         if let moc = self.managedObjectContext {
             Message.createInManagedObjectContext(moc,
-                                                 peer: sender,
+                                                 peer: alias,
                                                  publicKey: publicKey,
                                                  text: message,
-                                                 outgoing: sender == "Me" ? true : false,
+                                                 outgoing: isOutgoing,
                                                  contactDate: time
             )
             
             do {
                 try moc.save()
+                self.fetchMessages()
             } catch let error as NSError {
                 print("Unresolved error \(error), \(error.userInfo)")
                 abort()
@@ -176,7 +177,7 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func getLGChatMessageForMessage(message: Message) -> LGChatMessage {
-        let sender : LGChatMessage.SentBy = message.outgoing ? .Opponent : .User
+        let sender : LGChatMessage.SentBy = message.outgoing ? .User : .Opponent
         return LGChatMessage(content: message.text, sentBy: sender)
     }
     
@@ -261,6 +262,7 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
             let actualPubKey: NSData? = NSData(base64EncodedString: currentChatPubKey!, options: .IgnoreUnknownCharacters)
             let json : JSON = ["message": message.content, "timestamp": NSDate().timeIntervalSince1970]
             let data = try json.rawData()
+            print("Sending raw data \(data)")
             
             try networkingLayer.sendMessage(data, to: actualPubKey!)
         } catch let error as NSError {
@@ -268,7 +270,7 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
             abort()
         }
         
-        saveMessage(message.content, from: "Me", withKey: currentChatPubKey!, at: NSDate())
+        saveMessage(message.content, with: getAliasFromPublicKey(currentChatPubKey!), isOutgoing: true, withKey: currentChatPubKey!, at: NSDate())
         
         return true
     }
@@ -290,8 +292,7 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
                 }
             }
             
-            saveMessage(messageText, from: getAliasFromPublicKey(messagePublicKey), withKey: messagePublicKey, at: time)
-            self.fetchMessages()
+            saveMessage(messageText, with: getAliasFromPublicKey(messagePublicKey), isOutgoing: false, withKey: messagePublicKey, at: time)
             
             if (messagePublicKey == currentChatPubKey) {
                 self.chatController.addNewMessage(LGChatMessage(content: messageText, sentBy: .Opponent))
