@@ -304,8 +304,9 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
         
         let alert = UIAlertController(title: "Welcome", message: "Your public key has been copied to your pasteboard!", preferredStyle: .Alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
-        presentViewController(alert, animated: true, completion: nil)
-        
+        dispatch_async(dispatch_get_main_queue(), {
+            self.presentViewController(alert, animated: true, completion: nil)
+        })
     }
     
     func receivedMessage(messageData: NSData?, from publicKey: PublicKey) {
