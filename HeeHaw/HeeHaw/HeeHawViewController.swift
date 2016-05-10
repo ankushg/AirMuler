@@ -144,24 +144,27 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
         self.threadTable.reloadData()
     }
     
-    func saveMessage(message: String, with alias : String, isOutgoing: Bool, withKey publicKey: String, at time: NSDate) {
+    func saveMessage(message: String, with alias : String, isOutgoing: Bool, isDelivered: Bool, withKey publicKey: String, at time: NSTimeInterval) -> Message? {
         if let moc = self.managedObjectContext {
             let newMessage = Message.createInManagedObjectContext(moc,
-              peer: alias,
+              alias: alias,
               publicKey: publicKey,
               text: message,
               outgoing: isOutgoing,
-              contactDate: time)
+              delivered: isDelivered,
+              timestamp: time)
+            
+            processNewMessage(newMessage)
+            self.threadTable.reloadData()
             
             do {
                 try moc.save()
-                processNewMessage(newMessage)
-                self.threadTable.reloadData()
+                return newMessage
             } catch let error as NSError {
-                print("Unresolved error \(error), \(error.userInfo)")
-                abort()
+                print("Unresolved error saving message \(error), \(error.userInfo)")
             }
         }
+        return nil
     }
     
     func showChatForCurrentPubKey() {
@@ -181,18 +184,18 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
         return aliases[publicKey] ?? publicKey
     }
     
-    func getLGChatMessageForMessage(message: Message) -> LGChatMessage {
+    static func getLGChatMessageForMessage(message: Message) -> LGChatMessage {
         let sender : LGChatMessage.SentBy = message.outgoing ? .User : .Opponent
-        return LGChatMessage(content: message.text, sentBy: sender, timeStamp: message.timestamp.timeIntervalSinceNow)
+        return LGChatMessage(content: message.text, sentBy: sender, timeStamp: message.timestamp, delivered: message.delivered)
     }
     
-    func makeLGMessages(userMessages : [Message]) -> [LGChatMessage] {
+    static func makeLGMessages(userMessages : [Message]) -> [LGChatMessage] {
         return userMessages.map(getLGChatMessageForMessage)
     }
     
     func getMessagesForPublicKey(publicKey : String) -> [LGChatMessage] {
         if let userMessages = self.messages[publicKey] {
-            return makeLGMessages(userMessages)
+            return HeeHawViewController.makeLGMessages(userMessages)
         }
         return []
     }
@@ -254,7 +257,6 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
                 self.showChatForCurrentPubKey()
             }            
         }
-        
     }
     
     func actionSheetPickerDidCancel(actionSheetPicker: AbstractActionSheetPicker!, origin: AnyObject!) {
@@ -267,10 +269,14 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func shouldChatController(chatController: LGChatController, addMessage message: LGChatMessage) -> Bool {
+        let timestamp = NSDate().timeIntervalSince1970;
+        let actualPubKey: NSData? = NSData(base64EncodedString: currentChatPubKey!, options: .IgnoreUnknownCharacters)
+        message.timeStamp = timestamp
+        
         do {
-            let actualPubKey: NSData? = NSData(base64EncodedString: currentChatPubKey!, options: .IgnoreUnknownCharacters)
-            let json : JSON = ["message": message.content, "timestamp": NSDate().timeIntervalSince1970]
+            let json : JSON = ["message": message.content, "timestamp": timestamp]
             let data = try json.rawData()
+            
             print("Sending raw data \(data)")
             
             try networkingLayer.sendMessage(data, to: actualPubKey!)
@@ -279,7 +285,7 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
             abort()
         }
         
-        saveMessage(message.content, with: getAliasFromPublicKey(currentChatPubKey!), isOutgoing: true, withKey: currentChatPubKey!, at: NSDate())
+        saveMessage(message.content, with: getAliasFromPublicKey(currentChatPubKey!), isOutgoing: true, isDelivered: false, withKey: currentChatPubKey!, at: timestamp)
         
         return true
     }
@@ -291,33 +297,53 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
         if let messageText = messageObj["message"].string, timestamp = messageObj["timestamp"].double {
             let messagePublicKey = publicKey.base64EncodedStringWithOptions([])
             let alias = getAliasFromPublicKey(messagePublicKey)
-            let time = NSDate(timeIntervalSince1970: timestamp)
             
             // Check if duplicate of already delivered message
             if let previousMessages = self.messages[messagePublicKey] {
                 for message in previousMessages {
-                    let sameTime = message.timestamp.compare(time) == .OrderedSame
-                    if messageText == message.text && sameTime {
+                    if messageText == message.text && timestamp == message.timestamp {
                         return
                     }
                 }
             }
             
-            saveMessage(messageText, with: alias, isOutgoing: false, withKey: messagePublicKey, at: time)
-            
-            if (messagePublicKey == currentChatPubKey) {
-                print("Got a new message for \(alias): \(messageText)")
-                let message = LGChatMessage(content: messageText, sentBy: .Opponent)
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.chatController?.addNewMessage(message)
-                })
+            if let message = saveMessage(messageText, with: alias, isOutgoing: false, isDelivered: true, withKey: messagePublicKey, at: timestamp) {
+                if (messagePublicKey == currentChatPubKey) {
+                    print("Got a new message for \(alias): \(messageText)")
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.chatController?.addNewMessage(HeeHawViewController.getLGChatMessageForMessage(message))
+                    })
+                }
             }
+            
+
         }
     }
     
-    // MARK: NetworkProtocolDelegate
-    func acknowledgedReceiptOfMessage(message: NSData?) {
+    func acknowledgedDeliveryOfMessage(messageData: NSData?, to publicKey: PublicKey) {
+        let messageObj = JSON(data: messageData!)
+        let messagePublicKey = publicKey.base64EncodedStringWithOptions([])
         
+        if let messageText = messageObj["message"].string, timestamp = messageObj["timestamp"].double {
+            if let index = messages[messagePublicKey]?.indexOf({m in return m.text == messageText && m.timestamp == timestamp}) {
+                // set delivered in the data layer
+                messages[messagePublicKey]![index].delivered = true
+                
+                // set delivered in the chat controller (assuming same index)
+                if (messagePublicKey == currentChatPubKey) {
+                    self.chatController?.messages[index].delivered = true
+                    self.chatController?.reloadMessageAtIndexPath(NSIndexPath(forItem: index, inSection: 0))
+                }
+                
+                // save delivered status to CoreData
+                do {
+                    try self.managedObjectContext?.save()
+                } catch {
+                    fatalError("Failure to save context: \(error)")
+                }
+            }
+            
+        }
     }
 }
 

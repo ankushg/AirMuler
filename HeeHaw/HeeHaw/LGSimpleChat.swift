@@ -54,12 +54,14 @@ class LGChatMessage : NSObject {
     
     var sentBy: SentBy
     var content: String
+    var delivered: Bool
     var timeStamp: NSTimeInterval?
     
-    required init (content: String, sentBy: SentBy, timeStamp: NSTimeInterval? = nil){
+    required init (content: String, sentBy: SentBy, timeStamp: NSTimeInterval? = nil, delivered: Bool = true){
         self.sentBy = sentBy
         self.timeStamp = timeStamp
         self.content = content
+        self.delivered = delivered
     }
     
     // MARK: ObjC Compatibility
@@ -184,6 +186,7 @@ class LGChatMessageCell : UITableViewCell {
         }
         textView.bounds.size = size
         self.styleTextViewForSentBy(message.sentBy)
+        self.styleTextViewForDeliveryStatus(message.delivered)
         return size
     }
     
@@ -211,6 +214,17 @@ class LGChatMessageCell : UITableViewCell {
             self.textView.layer.borderColor = Appearance.userColor.CGColor
         }
     }
+    
+    private func styleTextViewForDeliveryStatus(deliveryStatus: Bool) {
+        if (deliveryStatus) {
+            self.textView.textColor = UIColor.whiteColor()
+            self.textView.backgroundColor = UIColor(CGColor: self.textView.layer.borderColor!)
+        } else {
+            self.textView.textColor = UIColor.blackColor()
+            self.textView.backgroundColor = UIColor.whiteColor()
+        }
+    }
+
 }
 
 // MARK: Chat Controller
@@ -392,6 +406,10 @@ class LGChatController : UIViewController, UITableViewDelegate, UITableViewDataS
         tableView.reloadData()
         self.scrollToBottom()
         self.delegate?.chatController?(self, didAddNewMessage: message)
+    }
+    
+    func reloadMessageAtIndexPath(indexPath : NSIndexPath) {
+        self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
     }
     
     // MARK: SwiftChatInputDelegate
