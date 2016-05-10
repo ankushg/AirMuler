@@ -16,7 +16,7 @@ import CoreActionSheetPicker
 class HeeHawViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NetworkProtocolDelegate, UINavigationBarDelegate, LGChatControllerDelegate, UIPickerViewDataSource, ActionSheetCustomPickerDelegate{
     
     var networkingLayer : NetworkProtocol
-    var chatController : LGChatController = LGChatController()
+    var chatController : LGChatController?
     var threadTable = UITableView(frame: CGRectZero, style: .Plain)
     
     var contacts : [String] = [] // pubKeys
@@ -82,14 +82,19 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
             let alias = (alertController.textFields![0] as UITextField).text as String!
             let pubKey = (alertController.textFields![1] as UITextField).text as String!
             
-            if((self.aliases[pubKey] == nil)) {
-                self.contacts.append(pubKey)
-                self.aliases[pubKey] = alias!
-                self.messages[pubKey!] = []
-            } else {
-                print("Already have alias \(self.aliases[pubKey]) for \(pubKey)")
+            if (!self.contacts.contains(pubKey)) {
+                self.contacts.insert(pubKey, atIndex: 0)
             }
+            
+            if (self.messages[pubKey] == nil) {
+                self.messages[pubKey] = []
+            }
+            
+            self.aliases[pubKey] = alias!
+            
+            self.threadTable.reloadData()
         })
+        
         alertController.addAction(saveAction)
 
         alertController.addTextFieldWithConfigurationHandler { (textField : UITextField!) -> Void in
@@ -144,11 +149,11 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
             print("Pushing Chat controller")
             
             chatController = LGChatController()
-            chatController.delegate = self
+            chatController?.delegate = self
             
-            chatController.messages = getMessagesForPublicKey(pubKey)
-            self.navigationController?.pushViewController(chatController, animated: true)
-            chatController.title = getAliasFromPublicKey(pubKey)
+            chatController?.messages = getMessagesForPublicKey(pubKey)
+            self.navigationController?.pushViewController(chatController!, animated: true)
+            chatController?.title = getAliasFromPublicKey(pubKey)
         }
     }
     
@@ -178,7 +183,7 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
     
     func getLGChatMessageForMessage(message: Message) -> LGChatMessage {
         let sender : LGChatMessage.SentBy = message.outgoing ? .User : .Opponent
-        return LGChatMessage(content: message.text, sentBy: sender)
+        return LGChatMessage(content: message.text, sentBy: sender, timeStamp: message.timestamp.timeIntervalSinceNow)
     }
     
     func makeLGMessages(userMessages : [Message]) -> [LGChatMessage] {
@@ -198,7 +203,7 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
         
         let messageItem = messages[contacts[indexPath.row]]!.last!
 
-        cell.messagePeerLabel.text = messageItem.alias
+        cell.messagePeerLabel.text = getAliasFromPublicKey(messageItem.publicKey)
         cell.messageTextLabel.text = messageItem.text
         
         return cell
@@ -277,12 +282,14 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
     
     // MARK: NetworkProtocolDelegate
     func receivedMessage(messageData: NSData?, from publicKey: PublicKey) {
-        let messageObj = JSON(data:messageData!)
+        let messageObj = JSON(data: messageData!)
         
         if let messageText = messageObj["message"].string, timestamp = messageObj["timestamp"].double {
             let messagePublicKey = publicKey.base64EncodedStringWithOptions([])
+            let alias = getAliasFromPublicKey(messagePublicKey)
             let time = NSDate(timeIntervalSince1970: timestamp)
             
+            // Check if duplicate of already delivered message
             if let previousMessages = self.messages[messagePublicKey] {
                 for message in previousMessages {
                     let sameTime = message.timestamp.compare(time) == .OrderedSame
@@ -292,10 +299,14 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
                 }
             }
             
-            saveMessage(messageText, with: getAliasFromPublicKey(messagePublicKey), isOutgoing: false, withKey: messagePublicKey, at: time)
+            saveMessage(messageText, with: alias, isOutgoing: false, withKey: messagePublicKey, at: time)
             
             if (messagePublicKey == currentChatPubKey) {
-                self.chatController.addNewMessage(LGChatMessage(content: messageText, sentBy: .Opponent))
+                print("Got a new message for \(alias): \(messageText)")
+                let message = LGChatMessage(content: messageText, sentBy: .Opponent)
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.chatController?.addNewMessage(message)
+                })
             }
         }
     }

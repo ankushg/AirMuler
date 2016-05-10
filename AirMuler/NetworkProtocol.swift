@@ -9,8 +9,9 @@
 import Foundation
 import MultipeerConnectivity
 
-public protocol NetworkProtocolDelegate {
+@objc public protocol NetworkProtocolDelegate {
     func receivedMessage(message: NSData?, from publicKey: PublicKey)
+    optional func acknowledgedReceiptOfMessage(message: NSData?)
 }
 
 struct NetworkProtocolConstants {
@@ -107,7 +108,9 @@ public class NetworkProtocol: NSObject, MCSessionDelegate, MCNearbyServiceAdvert
     
     func acceptPacket(packet: DataPacket, inout to buffer : [DataPacket]) {
         if packet.decrementTTL() {
-            if !checkBuffer(buffer, for: packet) {
+            if checkBuffer(buffer, for: packet) {
+               print("Not adding duplicate packet to buffer")
+            } else {
                 print("Propogating packet by adding to buffer")
                 buffer.append(packet)
                 
@@ -147,17 +150,25 @@ public class NetworkProtocol: NSObject, MCSessionDelegate, MCNearbyServiceAdvert
         
         switch SodiumCryptoProvider.getMessageType(blob)! {
         case MessageType.Ack:
+            print("Received ack!")
             do {
                 if let contentIndex = try SodiumCryptoProvider.checkBuffer(contentBuffer.map( {$0.blob} ), against: blob) {
-                    contentBuffer.removeAtIndex(contentIndex)
-                    // TODO: notify delegate that message was acked?
+                    let message = contentBuffer.removeAtIndex(contentIndex)
+                    print("Received ack for message!")
+                    self.delegate?.acknowledgedReceiptOfMessage?(message.blob)
+                } else {
+                    print("Ack did not match any message in buffer")
                 }
+                
+                print("Saving ack for broadcast!")
                 self.acceptPacket(packet, to: &ackBuffer)
             } catch {
                 // not a valid Ack. Ignore
+                print("Received invalid ack message")
             }
             
         case MessageType.Content:
+            print("Received message!")
             do {
                 let (decryptedPayload, sender, ack) = try SodiumCryptoProvider.decryptMessage(blob, with: self.keyPair)
                 if let payload = decryptedPayload {
@@ -167,12 +178,14 @@ public class NetworkProtocol: NSObject, MCSessionDelegate, MCNearbyServiceAdvert
                     
                     // ack the message!
                     if let ackBlob = ack {
+                        print("Sending ack for message!")
                         let ackPacket = DataPacket(blob: ackBlob, ttl: NetworkProtocolConstants.defaultTTL)
                         self.acceptPacket(ackPacket, to: &ackBuffer)
                     }
                 }
             } catch {
                 // not our message -- retransmit
+                print("Saving message for broadcast!")
                 self.acceptPacket(packet, to: &contentBuffer)
             }
         }
