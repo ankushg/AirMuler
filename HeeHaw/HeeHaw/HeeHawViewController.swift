@@ -200,11 +200,15 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
     // MARK: UITableViewDataSource
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("ThreadCell", forIndexPath: indexPath) as! ThreadTableViewCell
+        let contact = contacts[indexPath.row]
         
-        let messageItem = messages[contacts[indexPath.row]]!.last!
-
-        cell.messagePeerLabel.text = getAliasFromPublicKey(messageItem.publicKey)
-        cell.messageTextLabel.text = messageItem.text
+        cell.messagePeerLabel.text = getAliasFromPublicKey(contact)
+        
+        if let messageItem = messages[contact]?.last {
+            cell.messageTextLabel.text = messageItem.text
+        } else {
+            cell.messageTextLabel.text = ""
+        }
         
         return cell
     }
@@ -309,6 +313,11 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
                 })
             }
         }
+    }
+    
+    // MARK: NetworkProtocolDelegate
+    func acknowledgedReceiptOfMessage(message: NSData?) {
+        
     }
 }
 
