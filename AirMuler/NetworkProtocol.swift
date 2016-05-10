@@ -90,7 +90,7 @@ public class NetworkProtocol: NSObject, MCSessionDelegate, MCNearbyServiceAdvert
             let packet = DataPacket(blob: encrypted, ttl: NetworkProtocolConstants.defaultTTL)
             self.acceptPacket(packet, to: &contentBuffer)
             
-            let sentBlob: JSON = ["encrypted": encrypted.base64EncodedStringWithOptions([]), "message": message.base64EncodedStringWithOptions([]), "recipient": recipient.base64EncodedDataWithOptions([])]
+            let sentBlob: JSON = ["encrypted": encrypted.base64EncodedStringWithOptions([]), "message": message.base64EncodedStringWithOptions([]), "recipient": recipient.base64EncodedStringWithOptions([])]
             let sentPacket = try DataPacket(blob: sentBlob.rawData(), ttl: NetworkProtocolConstants.defaultTTL)
             self.acceptPacket(sentPacket, to: &sentBuffer, shouldBroadcast: false)
         }
