@@ -263,7 +263,7 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
             let json : JSON = ["message": message.content, "timestamp": NSDate().timeIntervalSince1970]
             let data = try json.rawData()
             
-            try networkingLayer.sendMessage(data, to: actualPubKey!)
+            networkingLayer.sendMessage(data, to: actualPubKey!)
         } catch let error as NSError {
             print("Unresolved error \(error), \(error.userInfo)")
             abort()

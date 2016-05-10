@@ -19,16 +19,6 @@ struct NetworkProtocolConstants {
     static let serviceType = "pf-connector"
 }
 
-class BufferItem {
-    var packetItem : DataPacket
-    var receiveTime : NSDate
-    
-    init(packet : DataPacket, rTime:NSDate) {
-        self.packetItem = packet
-        self.receiveTime = rTime
-    }
-}
-
 public class NetworkProtocol: NSObject, MCSessionDelegate, MCNearbyServiceAdvertiserDelegate, MCNearbyServiceBrowserDelegate {
     public static let sharedInstance : NetworkProtocol = {
         var keyPair : KeyPair
@@ -60,12 +50,15 @@ public class NetworkProtocol: NSObject, MCSessionDelegate, MCNearbyServiceAdvert
     var peerID: MCPeerID!
     var browser : MCNearbyServiceBrowser!
     
-    var buffer : [BufferItem]
+    var contentBuffer : [DataPacket]
+    var ackBuffer : [DataPacket]
+    
     var keyPair : KeyPair
     public var delegate : NetworkProtocolDelegate?
     
     init(keyPair: KeyPair) {
-        self.buffer = []
+        self.contentBuffer = []
+        self.ackBuffer = []
         self.keyPair = keyPair;
         self.peerID = MCPeerID(displayName: UIDevice.currentDevice().name)
         
@@ -85,29 +78,20 @@ public class NetworkProtocol: NSObject, MCSessionDelegate, MCNearbyServiceAdvert
         print("Started browsing for peers!")
     }
     
-    public func sendMessage(message: NSData, to recipient: PublicKey) throws {
-        do {
-            if let encrypted = try SodiumCryptoProvider.encryptMessage(message, with: self.keyPair, to: recipient) {
-                let packet = DataPacket(blob: encrypted, ttl: NetworkProtocolConstants.defaultTTL)
-                let item = BufferItem(packet: packet, rTime: NSDate())
-                
-                self.buffer.append(item)
-                try self.session.sendData(item.packetItem.serialize(), toPeers: self.session.connectedPeers, withMode: .Reliable)
-                trimBuffer()
-            }
-        } catch {
-            print("Error sending message: \(message)")
+    public func sendMessage(message: NSData, to recipient: PublicKey) {
+        if let encrypted = SodiumCryptoProvider.encryptMessage(message, with: self.keyPair, to: recipient) {
+            let packet = DataPacket(blob: encrypted, ttl: NetworkProtocolConstants.defaultTTL)
+            self.acceptPacket(packet, to: &contentBuffer)
         }
-
     }
     
-    private func inBuffer(packet : DataPacket) -> Bool {
-        return self.buffer.contains({ $0.packetItem.hasSameBlob(packet) })
+    private func checkBuffer(buffer: [DataPacket], for packet : DataPacket) -> Bool {
+        return buffer.contains({ $0.hasSameBlob(packet) })
     }
     
-    private func trimBuffer() {
+    private func trimBuffer(inout buffer: [DataPacket], to maxLength : Int) {
         print("Buffer size is now \(buffer.count)")
-        let remove = buffer.count - NetworkProtocolConstants.maxBufferLength
+        let remove = buffer.count - maxLength
         if (remove > 0) {
             print("Trimming buffer...")
             buffer.removeRange(0..<remove)
@@ -118,14 +102,32 @@ public class NetworkProtocol: NSObject, MCSessionDelegate, MCNearbyServiceAdvert
         print("Connected peers: \(session.connectedPeers.description)")
     }
     
+    func acceptPacket(packet: DataPacket, inout to buffer : [DataPacket]) {
+        if packet.decrementTTL() {
+            if !checkBuffer(buffer, for: packet) {
+                print("Propogating packet by adding to buffer")
+                buffer.append(packet)
+                
+                // broadcast to currently connected peers
+                do {
+                    try self.session.sendData(packet.serialize(), toPeers: self.session.connectedPeers, withMode: .Reliable)
+                } catch {
+                    print("Error sending packet!")
+                }
+                
+                trimBuffer(&buffer, to: NetworkProtocolConstants.maxBufferLength)
+            }
+        }
+    }
+    
     // MARK: MCSessionDelegate
     public func session(session: MCSession, peer peerID: MCPeerID, didChangeState state: MCSessionState) {
         print("Session state changed to \(state)")
         
         if state == .Connected {
-            for item in self.buffer {
+            for item in self.contentBuffer + self.ackBuffer {
                 do {
-                    try self.session.sendData(item.packetItem.serialize(), toPeers: [peerID], withMode: .Reliable)
+                    try self.session.sendData(item.serialize(), toPeers: [peerID], withMode: .Reliable)
                 } catch let error as NSError {
                     print("Error sending data to \(peerID.displayName): \(error.localizedDescription)")
                 }
@@ -138,23 +140,37 @@ public class NetworkProtocol: NSObject, MCSessionDelegate, MCNearbyServiceAdvert
         print("Received data from \(peerID.displayName)")
         
         let packet = DataPacket.deserialize(data)
+        let blob = packet.blob
         
-        do {
-            let (decryptedPayLoad, sender, ackMessage) = try SodiumCryptoProvider.decryptMessage(packet.blob, with: self.keyPair)
-            
-            if let payload = decryptedPayLoad {
-                print("Successfully decrypted message \(payload) from \(sender)")
-                delegate?.receivedMessage(payload, from: sender)
+        switch SodiumCryptoProvider.getMessageType(blob)! {
+        case MessageType.Ack:
+            do {
+                if let contentIndex = try SodiumCryptoProvider.checkBuffer(contentBuffer.map( {$0.blob} ), against: blob) {
+                    contentBuffer.removeAtIndex(contentIndex)
+                    // TODO: notify delegate that message was acked?
+                }
+                self.acceptPacket(packet, to: &ackBuffer)
+            } catch {
+                // not a valid Ack. Ignore
             }
             
-
-        } catch {
-            if packet.decrementTTL() {
-                if !inBuffer(packet) {
-                    print("Propogating message by adding to our buffer")
-                    buffer.append(BufferItem(packet: packet, rTime: NSDate()))
-                    trimBuffer()
+        case MessageType.Content:
+            do {
+                let (decryptedPayload, sender, ack) = try SodiumCryptoProvider.decryptMessage(blob, with: self.keyPair)
+                if let payload = decryptedPayload {
+                    // our message!
+                    print("Successfully decrypted message \(payload) from \(sender)")
+                    delegate?.receivedMessage(payload, from: sender)
+                    
+                    // ack the message!
+                    if let ackBlob = ack {
+                        let ackPacket = DataPacket(blob: ackBlob, ttl: NetworkProtocolConstants.defaultTTL)
+                        self.acceptPacket(ackPacket, to: &ackBuffer)
+                    }
                 }
+            } catch {
+                // not our message -- retransmit
+                self.acceptPacket(packet, to: &contentBuffer)
             }
         }
     }
