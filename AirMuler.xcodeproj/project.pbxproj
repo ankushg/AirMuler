@@ -13,8 +13,12 @@
 		AC830DF21CAB38F400DEAC85 /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC830DF11CAB38F400DEAC85 /* Crypto.swift */; };
 		ACDD573D1CAC4ECB007DEF68 /* NetworkProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDD573C1CAC4ECB007DEF68 /* NetworkProtocol.swift */; };
 		ACDD57461CAC5730007DEF68 /* DataPacket.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDD57451CAC5730007DEF68 /* DataPacket.swift */; };
-		C0D4D5DA1CE18BEE006E1B2A /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D4D5D91CE18BEE006E1B2A /* SwiftyJSON.framework */; };
-		C0D4D5DC1CE18BF2006E1B2A /* Sodium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D4D5DB1CE18BF2006E1B2A /* Sodium.framework */; };
+		C0D4D5F91CE1AEC2006E1B2A /* Sodium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D4D5F81CE1AEC2006E1B2A /* Sodium.framework */; };
+		C0D4D5FA1CE1AEE7006E1B2A /* Sodium.framework in Resources */ = {isa = PBXBuildFile; fileRef = C0D4D5F81CE1AEC2006E1B2A /* Sodium.framework */; };
+		C0D4D5FC1CE1AEEF006E1B2A /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D4D5FB1CE1AEEF006E1B2A /* SwiftyJSON.framework */; };
+		C0D4D5FE1CE1AF0A006E1B2A /* SwiftyJSON.framework in Resources */ = {isa = PBXBuildFile; fileRef = C0D4D5FB1CE1AEEF006E1B2A /* SwiftyJSON.framework */; };
+		C0D4D6001CE1AFA4006E1B2A /* Sodium.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C0D4D5F81CE1AEC2006E1B2A /* Sodium.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C0D4D6011CE1AFA7006E1B2A /* SwiftyJSON.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C0D4D5FB1CE1AEEF006E1B2A /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +31,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		C0D4D5FF1CE1AF77006E1B2A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C0D4D6011CE1AFA7006E1B2A /* SwiftyJSON.framework in CopyFiles */,
+				C0D4D6001CE1AFA4006E1B2A /* Sodium.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		AC830DBD1CAB221300DEAC85 /* AirMuler.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AirMuler.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC830DC01CAB221300DEAC85 /* AirMuler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AirMuler.h; sourceTree = "<group>"; };
@@ -37,8 +55,8 @@
 		AC830DF11CAB38F400DEAC85 /* Crypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Crypto.swift; sourceTree = "<group>"; };
 		ACDD573C1CAC4ECB007DEF68 /* NetworkProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkProtocol.swift; sourceTree = "<group>"; };
 		ACDD57451CAC5730007DEF68 /* DataPacket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataPacket.swift; sourceTree = "<group>"; };
-		C0D4D5D91CE18BEE006E1B2A /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "../../../../Library/Developer/Xcode/DerivedData/AirMuler-dsffwjpkedsuxogkyijpxckpzpzl/Build/Products/Debug-iphonesimulator/SwiftyJSON.framework"; sourceTree = "<group>"; };
-		C0D4D5DB1CE18BF2006E1B2A /* Sodium.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sodium.framework; path = "../../../../Library/Developer/Xcode/DerivedData/AirMuler-dsffwjpkedsuxogkyijpxckpzpzl/Build/Products/Debug-iphonesimulator/Sodium.framework"; sourceTree = "<group>"; };
+		C0D4D5F81CE1AEC2006E1B2A /* Sodium.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sodium.framework; path = "../../../../Library/Developer/Xcode/DerivedData/AirMuler-dsffwjpkedsuxogkyijpxckpzpzl/Build/Products/Debug-iphoneos/Sodium.framework"; sourceTree = "<group>"; };
+		C0D4D5FB1CE1AEEF006E1B2A /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "../../../../Library/Developer/Xcode/DerivedData/AirMuler-dsffwjpkedsuxogkyijpxckpzpzl/Build/Products/Debug-iphoneos/SwiftyJSON.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,8 +64,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C0D4D5DC1CE18BF2006E1B2A /* Sodium.framework in Frameworks */,
-				C0D4D5DA1CE18BEE006E1B2A /* SwiftyJSON.framework in Frameworks */,
+				C0D4D5FC1CE1AEEF006E1B2A /* SwiftyJSON.framework in Frameworks */,
+				C0D4D5F91CE1AEC2006E1B2A /* Sodium.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,8 +83,8 @@
 		AC830DB31CAB221300DEAC85 = {
 			isa = PBXGroup;
 			children = (
-				C0D4D5DB1CE18BF2006E1B2A /* Sodium.framework */,
-				C0D4D5D91CE18BEE006E1B2A /* SwiftyJSON.framework */,
+				C0D4D5FB1CE1AEEF006E1B2A /* SwiftyJSON.framework */,
+				C0D4D5F81CE1AEC2006E1B2A /* Sodium.framework */,
 				AC830DBF1CAB221300DEAC85 /* AirMuler */,
 				AC830DCB1CAB221300DEAC85 /* AirMulerTests */,
 				AC830DBE1CAB221300DEAC85 /* Products */,
@@ -125,6 +143,7 @@
 				AC830DB91CAB221300DEAC85 /* Frameworks */,
 				AC830DBA1CAB221300DEAC85 /* Headers */,
 				AC830DBB1CAB221300DEAC85 /* Resources */,
+				C0D4D5FF1CE1AF77006E1B2A /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -195,6 +214,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0D4D5FE1CE1AF0A006E1B2A /* SwiftyJSON.framework in Resources */,
+				C0D4D5FA1CE1AEE7006E1B2A /* Sodium.framework in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

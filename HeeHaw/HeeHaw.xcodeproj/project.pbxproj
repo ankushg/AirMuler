@@ -14,15 +14,31 @@
 		ACD270E01CE00CA200C719A8 /* HeeHaw.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = ACD270DE1CE00CA200C719A8 /* HeeHaw.xcdatamodeld */; };
 		ACD270E51CE0116200C719A8 /* LGSimpleChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD270E41CE0116200C719A8 /* LGSimpleChat.swift */; };
 		ACD270F71CE05A8800C719A8 /* ThreadTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD270F61CE05A8800C719A8 /* ThreadTableViewCell.swift */; };
-		C0D4D5D41CE18BCF006E1B2A /* AirMuler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D4D5D01CE18BBE006E1B2A /* AirMuler.framework */; };
-		C0D4D5D61CE18BD5006E1B2A /* CoreActionSheetPicker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D4D5D51CE18BD5006E1B2A /* CoreActionSheetPicker.framework */; };
-		C0D4D5D81CE18BDE006E1B2A /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D4D5D71CE18BDE006E1B2A /* SwiftyJSON.framework */; };
+		C0D4D5EF1CE1ADF8006E1B2A /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D4D5EE1CE1ADF8006E1B2A /* SwiftyJSON.framework */; };
+		C0D4D5F01CE1ADF8006E1B2A /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C0D4D5EE1CE1ADF8006E1B2A /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C0D4D5F21CE1ADFC006E1B2A /* CoreActionSheetPicker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D4D5F11CE1ADFC006E1B2A /* CoreActionSheetPicker.framework */; };
+		C0D4D5F31CE1ADFC006E1B2A /* CoreActionSheetPicker.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C0D4D5F11CE1ADFC006E1B2A /* CoreActionSheetPicker.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C0D4D6031CE1AFE9006E1B2A /* AirMuler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D4D6021CE1AFE9006E1B2A /* AirMuler.framework */; };
+		C0D4D6041CE1AFE9006E1B2A /* AirMuler.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C0D4D6021CE1AFE9006E1B2A /* AirMuler.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		C0D4D5E61CE1AD52006E1B2A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C0D4D5F31CE1ADFC006E1B2A /* CoreActionSheetPicker.framework in Embed Frameworks */,
+				C0D4D5F01CE1ADF8006E1B2A /* SwiftyJSON.framework in Embed Frameworks */,
+				C0D4D6041CE1AFE9006E1B2A /* AirMuler.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		AC278CDA1CE0666A0067AB6A /* AirMuler.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AirMuler.framework; path = "../../../Library/Developer/Xcode/DerivedData/AirMuler-abwsqrpresbelwdzmamkkyjhhciz/Build/Products/Debug-iphonesimulator/AirMuler.framework"; sourceTree = "<group>"; };
-		AC278CDC1CE066700067AB6A /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "../Carthage/Checkouts/SwiftyJSON/build/Debug-iphoneos/SwiftyJSON.framework"; sourceTree = "<group>"; };
-		AC278CDF1CE06BAD0067AB6A /* CoreActionSheetPicker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreActionSheetPicker.framework; path = "../Carthage/Checkouts/ActionSheetPicker-3.0/CoreActionSheetPicker/build/Debug-iphoneos/CoreActionSheetPicker.framework"; sourceTree = "<group>"; };
 		ACD270B71CE00BA500C719A8 /* 🐴.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "🐴.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACD270BA1CE00BA500C719A8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ACD270BC1CE00BA500C719A8 /* HeeHawViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeeHawViewController.swift; sourceTree = "<group>"; };
@@ -32,9 +48,9 @@
 		ACD270DF1CE00CA200C719A8 /* SkipChat.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SkipChat.xcdatamodel; sourceTree = "<group>"; };
 		ACD270E41CE0116200C719A8 /* LGSimpleChat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSimpleChat.swift; sourceTree = "<group>"; };
 		ACD270F61CE05A8800C719A8 /* ThreadTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreadTableViewCell.swift; sourceTree = "<group>"; };
-		C0D4D5D01CE18BBE006E1B2A /* AirMuler.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = AirMuler.framework; path = "/Users/jlmart88/Library/Developer/Xcode/DerivedData/AirMuler-dsffwjpkedsuxogkyijpxckpzpzl/Build/Products/Debug-iphonesimulator/AirMuler.framework"; sourceTree = "<absolute>"; };
-		C0D4D5D51CE18BD5006E1B2A /* CoreActionSheetPicker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreActionSheetPicker.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/AirMuler-dsffwjpkedsuxogkyijpxckpzpzl/Build/Products/Debug-iphonesimulator/CoreActionSheetPicker.framework"; sourceTree = "<group>"; };
-		C0D4D5D71CE18BDE006E1B2A /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/AirMuler-dsffwjpkedsuxogkyijpxckpzpzl/Build/Products/Debug-iphonesimulator/SwiftyJSON.framework"; sourceTree = "<group>"; };
+		C0D4D5EE1CE1ADF8006E1B2A /* SwiftyJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = SwiftyJSON.framework; path = "/Users/jlmart88/Library/Developer/Xcode/DerivedData/AirMuler-dsffwjpkedsuxogkyijpxckpzpzl/Build/Products/Debug-iphoneos/SwiftyJSON.framework"; sourceTree = "<absolute>"; };
+		C0D4D5F11CE1ADFC006E1B2A /* CoreActionSheetPicker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = CoreActionSheetPicker.framework; path = "/Users/jlmart88/Library/Developer/Xcode/DerivedData/AirMuler-dsffwjpkedsuxogkyijpxckpzpzl/Build/Products/Debug-iphoneos/CoreActionSheetPicker.framework"; sourceTree = "<absolute>"; };
+		C0D4D6021CE1AFE9006E1B2A /* AirMuler.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = AirMuler.framework; path = "/Users/jlmart88/Library/Developer/Xcode/DerivedData/AirMuler-dsffwjpkedsuxogkyijpxckpzpzl/Build/Products/Debug-iphoneos/AirMuler.framework"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,9 +58,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C0D4D5D81CE18BDE006E1B2A /* SwiftyJSON.framework in Frameworks */,
-				C0D4D5D61CE18BD5006E1B2A /* CoreActionSheetPicker.framework in Frameworks */,
-				C0D4D5D41CE18BCF006E1B2A /* AirMuler.framework in Frameworks */,
+				C0D4D5F21CE1ADFC006E1B2A /* CoreActionSheetPicker.framework in Frameworks */,
+				C0D4D5EF1CE1ADF8006E1B2A /* SwiftyJSON.framework in Frameworks */,
+				C0D4D6031CE1AFE9006E1B2A /* AirMuler.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -54,9 +70,9 @@
 		ACD270AE1CE00BA500C719A8 = {
 			isa = PBXGroup;
 			children = (
-				C0D4D5D71CE18BDE006E1B2A /* SwiftyJSON.framework */,
-				C0D4D5D51CE18BD5006E1B2A /* CoreActionSheetPicker.framework */,
-				C0D4D5D01CE18BBE006E1B2A /* AirMuler.framework */,
+				C0D4D6021CE1AFE9006E1B2A /* AirMuler.framework */,
+				C0D4D5F11CE1ADFC006E1B2A /* CoreActionSheetPicker.framework */,
+				C0D4D5EE1CE1ADF8006E1B2A /* SwiftyJSON.framework */,
 				ACD270B91CE00BA500C719A8 /* HeeHaw */,
 				ACD270B81CE00BA500C719A8 /* Products */,
 			);
@@ -95,6 +111,7 @@
 				ACD270B31CE00BA500C719A8 /* Sources */,
 				ACD270B41CE00BA500C719A8 /* Frameworks */,
 				ACD270B51CE00BA500C719A8 /* Resources */,
+				C0D4D5E61CE1AD52006E1B2A /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -117,6 +134,7 @@
 				TargetAttributes = {
 					ACD270B61CE00BA500C719A8 = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = 5S369Z8BU6;
 					};
 				};
 			};
@@ -255,10 +273,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = HeeHaw/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ankushg.HeeHaw;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ankushg.HeeHaw87;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -266,10 +288,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = HeeHaw/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ankushg.HeeHaw;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ankushg.HeeHaw87;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
