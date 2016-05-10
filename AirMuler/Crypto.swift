@@ -108,12 +108,12 @@ class SodiumCryptoProvider : CryptoProvider {
         
         let payloadEnc: NSData = sodium.box.seal(payload, recipientPublicKey: recipient, senderSecretKey: keyPair.secretKey)!
         
-        var dispatch = Dispatch(payloadEnc: payloadEnc, senderPublicKey: keyPair.publicKey, ackKey: ackKey)
+        let dispatch = Dispatch(payloadEnc: payloadEnc, senderPublicKey: keyPair.publicKey, ackKey: ackKey)
         let dispatchEnc: NSData = try sodium.secretBox.seal(dispatch.toJSON()!, secretKey: dispatchKey)!
         
         let message = ContentMessage(uuid: uuid, uuidEnc: uuidEnc, dispatchEnc: dispatchEnc, dispatchKeyEnc: dispatchKeyEnc)
         
-        var messageContainer = MessageContainer(messageType: MessageType.Content, ackMessage: nil, contentMessage: message)
+        let messageContainer = MessageContainer(messageType: MessageType.Content, ackMessage: nil, contentMessage: message)
         return try messageContainer.toJSON()!
     }
     
@@ -123,17 +123,17 @@ class SodiumCryptoProvider : CryptoProvider {
         let contentMessageData = NSData(base64EncodedString: messageContainer["contentMessage"].string!, options: [])
         let contentMessage = JSON(data:contentMessageData!)
         if let
-            dispatchKey = try sodium.box.open(
+            dispatchKey = sodium.box.open(
                 NSData(base64EncodedString:contentMessage["dispatchKeyEnc"].string!, options:[])!,
                 senderPublicKey: NSData(base64EncodedString:contentMessage["uuid"].string!, options:[])!,recipientSecretKey: keyPair.secretKey),
-            dispatchData = try sodium.secretBox.open(NSData(base64EncodedString:contentMessage["dispatchEnc"].string!, options: [])!, secretKey: dispatchKey)
+            dispatchData = sodium.secretBox.open(NSData(base64EncodedString:contentMessage["dispatchEnc"].string!, options: [])!, secretKey: dispatchKey)
         {
           
             let dispatch = JSON(data: dispatchData)
           
-            if let payload = try sodium.box.open(NSData(base64EncodedString:dispatch["payloadEnc"].string!, options: [])!, senderPublicKey: NSData(base64EncodedString:dispatch["senderPublicKey"].string!, options: [])!, recipientSecretKey: keyPair.secretKey) {
-                let ackMessage = try AckMessage(uuid: NSData(base64EncodedString:contentMessage["uuid"].string!, options: [])!, ackKey: NSData(base64EncodedString:dispatch["ackKey"].string!, options: [])!)
-                var messageContainer = MessageContainer(messageType: MessageType.Ack, ackMessage: ackMessage, contentMessage: nil)
+            if let payload = sodium.box.open(NSData(base64EncodedString:dispatch["payloadEnc"].string!, options: [])!, senderPublicKey: NSData(base64EncodedString:dispatch["senderPublicKey"].string!, options: [])!, recipientSecretKey: keyPair.secretKey) {
+                let ackMessage = AckMessage(uuid: NSData(base64EncodedString:contentMessage["uuid"].string!, options: [])!, ackKey: NSData(base64EncodedString:dispatch["ackKey"].string!, options: [])!)
+                let messageContainer = MessageContainer(messageType: MessageType.Ack, ackMessage: ackMessage, contentMessage: nil)
                 
                 return try (payload: payload, from: NSData(base64EncodedString:dispatch["senderPublicKey"].string!, options: [])!, ackMessage: messageContainer.toJSON()!)
             } else {
@@ -162,7 +162,7 @@ class SodiumCryptoProvider : CryptoProvider {
             
             if (contentMessage["uuid"].string == ackMessageJSON["uuid"].string) {
                 let keyCheck = sodium.secretBox.open(NSData(base64EncodedString:contentMessage["uuidEnc"].string!, options: [])!, secretKey: NSData(base64EncodedString:ackMessageJSON["ackKey"].string!, options: [])!)
-                if try (keyCheck == NSData(base64EncodedString:contentMessage["uuid"].string!, options: [])) {
+                if (keyCheck == NSData(base64EncodedString:contentMessage["uuid"].string!, options: [])) {
                     return index
                 } else {
                     throw CryptoProviderError.InvalidAckMessage
