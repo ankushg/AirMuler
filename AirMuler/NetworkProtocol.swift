@@ -47,6 +47,10 @@ public class NetworkProtocol: NSObject, MCSessionDelegate, MCNearbyServiceAdvert
             
             print("Done generating keypair!")
         }
+        
+        let extraKeyPair = SodiumCryptoProvider.genKeyPair()
+        
+        print(extraKeyPair.publicKey.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength))
     
         return NetworkProtocol(keyPair: keyPair)
     }()
