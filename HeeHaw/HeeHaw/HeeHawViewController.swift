@@ -17,22 +17,24 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
     
     var networkingLayer : NetworkProtocol
     var chatController : LGChatController = LGChatController()
-    var messageTable = UITableView(frame: CGRectZero, style: .Plain)
+    var threadTable = UITableView(frame: CGRectZero, style: .Plain)
     
     var contacts : [String] = [] // pubKeys
     var messages : [String : [Message]] = [:] // pubKey -> [message]
-    var aliases : [String : String] = [:] // pubKey -> alias string
+    var aliases : [String : String] = [:] // pubKey -> alias
     
     var currentChatPubKey : String?
     
     required init?(coder aDecoder: NSCoder) {
         self.networkingLayer = NetworkProtocol.sharedInstance
         super.init(coder: aDecoder)
+        self.networkingLayer.delegate = self
     }
     
     override init(nibName nibNameOrNil: String!, bundle nibBundleOrNil: NSBundle!) {
         self.networkingLayer = NetworkProtocol.sharedInstance
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        self.networkingLayer.delegate = self
     }
     
     convenience init() {
@@ -47,17 +49,15 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.networkingLayer.delegate = self
-        
         fetchMessages()
         
         let viewFrame = self.view.frame
-        self.messageTable.frame = viewFrame
-        self.view.addSubview(messageTable)
+        self.threadTable.frame = viewFrame
+        self.view.addSubview(threadTable)
         
-        self.messageTable.registerClass(ThreadTableViewCell.classForCoder(), forCellReuseIdentifier: "MessageCell")
-        self.messageTable.dataSource = self
-        self.messageTable.delegate = self
+        self.threadTable.registerClass(ThreadTableViewCell.classForCoder(), forCellReuseIdentifier: "ThreadCell")
+        self.threadTable.dataSource = self
+        self.threadTable.delegate = self
         
         self.title = "🐴"
         let leftButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: #selector(addNewContact))
@@ -140,7 +140,7 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
             print("Fetch failed: \(error.localizedDescription)")
         }
         
-        self.messageTable.reloadData()
+        self.threadTable.reloadData()
     }
     
     func showChatForCurrentPubKey() {
@@ -193,7 +193,7 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
 
     // MARK: UITableViewDataSource
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("MessageCell", forIndexPath: indexPath) as! ThreadTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("ThreadCell", forIndexPath: indexPath) as! ThreadTableViewCell
         
         let messageItem = messages[contacts[indexPath.row]]!.last!
 
@@ -214,7 +214,7 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
     // MARK: UITableViewDelegate
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         currentChatPubKey = contacts[indexPath.row]
-        self.messageTable.deselectRowAtIndexPath(indexPath, animated: true)
+        self.threadTable.deselectRowAtIndexPath(indexPath, animated: true)
         showChatForCurrentPubKey()
     }
     
