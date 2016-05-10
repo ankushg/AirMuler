@@ -10,6 +10,7 @@ import Foundation
 import MultipeerConnectivity
 
 @objc public protocol NetworkProtocolDelegate {
+    optional func connectedWithKey(key: NSData?)
     func receivedMessage(message: NSData?, from publicKey: PublicKey)
     optional func acknowledgedReceiptOfMessage(message: NSData?)
 }
@@ -40,12 +41,6 @@ public class NetworkProtocol: NSObject, MCSessionDelegate, MCNearbyServiceAdvert
             print("Done generating keypair!")
             print(keyPair.publicKey.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength))
         }
-        
-        let extraKeyPair = SodiumCryptoProvider.genKeyPair()
-        
-        print("Extra keypair:")
-        print(extraKeyPair.publicKey.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength))
-    
         return NetworkProtocol(keyPair: keyPair)
     }()
     
@@ -58,7 +53,11 @@ public class NetworkProtocol: NSObject, MCSessionDelegate, MCNearbyServiceAdvert
     var ackBuffer : [DataPacket]
     
     var keyPair : KeyPair
-    public var delegate : NetworkProtocolDelegate?
+    public var delegate : NetworkProtocolDelegate? {
+        willSet {
+            newValue?.connectedWithKey?(keyPair.publicKey)
+        }
+    }
     
     init(keyPair: KeyPair) {
         self.contentBuffer = []
