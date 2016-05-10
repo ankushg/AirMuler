@@ -211,8 +211,10 @@ class HeeHawViewController: UIViewController, UITableViewDataSource, UITableView
         
         if let messageItem = messages[contact]?.last {
             cell.messageTextLabel.text = messageItem.text
+            cell.messageTextLabel.font = UIFont.systemFontOfSize(cell.messageTextLabel.font.pointSize)
         } else {
-            cell.messageTextLabel.text = ""
+            cell.messageTextLabel.text = "Send a message!"
+            cell.messageTextLabel.font = UIFont.italicSystemFontOfSize(cell.messageTextLabel.font.pointSize)
         }
         
         return cell

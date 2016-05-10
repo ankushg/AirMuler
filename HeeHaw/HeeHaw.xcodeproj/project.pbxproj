@@ -40,7 +40,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		ACD270B71CE00BA500C719A8 /* 🐴.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "🐴.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		ACD270B71CE00BA500C719A8 /* HeeHaw.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HeeHaw.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACD270BA1CE00BA500C719A8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ACD270BC1CE00BA500C719A8 /* HeeHawViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeeHawViewController.swift; sourceTree = "<group>"; };
 		ACD270C41CE00BA500C719A8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -83,7 +83,7 @@
 		ACD270B81CE00BA500C719A8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				ACD270B71CE00BA500C719A8 /* 🐴.app */,
+				ACD270B71CE00BA500C719A8 /* HeeHaw.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -107,9 +107,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		ACD270B61CE00BA500C719A8 /* 🐴 */ = {
+		ACD270B61CE00BA500C719A8 /* HeeHaw */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = ACD270CC1CE00BA500C719A8 /* Build configuration list for PBXNativeTarget "🐴" */;
+			buildConfigurationList = ACD270CC1CE00BA500C719A8 /* Build configuration list for PBXNativeTarget "HeeHaw" */;
 			buildPhases = (
 				ACD270B31CE00BA500C719A8 /* Sources */,
 				ACD270B41CE00BA500C719A8 /* Frameworks */,
@@ -120,9 +120,9 @@
 			);
 			dependencies = (
 			);
-			name = "🐴";
+			name = HeeHaw;
 			productName = HeeHaw;
-			productReference = ACD270B71CE00BA500C719A8 /* 🐴.app */;
+			productReference = ACD270B71CE00BA500C719A8 /* HeeHaw.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -154,7 +154,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				ACD270B61CE00BA500C719A8 /* 🐴 */,
+				ACD270B61CE00BA500C719A8 /* HeeHaw */,
 			);
 		};
 /* End PBXProject section */
@@ -285,7 +285,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ankushg.HeeHaw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -301,7 +301,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ankushg.HeeHaw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -317,7 +317,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		ACD270CC1CE00BA500C719A8 /* Build configuration list for PBXNativeTarget "🐴" */ = {
+		ACD270CC1CE00BA500C719A8 /* Build configuration list for PBXNativeTarget "HeeHaw" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				ACD270CD1CE00BA500C719A8 /* Debug */,

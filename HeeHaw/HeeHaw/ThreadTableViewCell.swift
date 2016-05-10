@@ -18,8 +18,9 @@ class ThreadTableViewCell: UITableViewCell {
         
         messagePeerLabel = UILabel(frame: CGRectMake(30, 10, self.bounds.size.width - 40, 20))
         messagePeerLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 18)
+        
         messageTextLabel = UILabel(frame: CGRectMake(30, 20, self.bounds.size.width - 40, 40))
-        messageTextLabel.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4)
+        messageTextLabel.textColor = UIColor.lightGrayColor()
         
         self.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
         
