@@ -27,6 +27,7 @@ public class NetworkProtocol: NSObject, MCSessionDelegate, MCNearbyServiceAdvert
         if let publicKey = defaults.objectForKey("public_key") as? PublicKey, secretKey = defaults.objectForKey("secret_key") as? SecretKey {
             keyPair = KeyPair(publicKey: publicKey, secretKey: secretKey)
             print("Using previously generated keypair")
+            print(publicKey.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength))
         } else {
             print("Generating keypair...")
             
@@ -40,6 +41,7 @@ public class NetworkProtocol: NSObject, MCSessionDelegate, MCNearbyServiceAdvert
         
         let extraKeyPair = SodiumCryptoProvider.genKeyPair()
         
+        print("Extra keypair:")
         print(extraKeyPair.publicKey.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength))
     
         return NetworkProtocol(keyPair: keyPair)
