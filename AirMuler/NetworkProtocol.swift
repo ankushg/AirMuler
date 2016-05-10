@@ -8,11 +8,12 @@
 
 import Foundation
 import MultipeerConnectivity
+import SwiftyJSON
 
 @objc public protocol NetworkProtocolDelegate {
     optional func connectedWithKey(key: NSData?)
     func receivedMessage(message: NSData?, from publicKey: PublicKey)
-    optional func acknowledgedReceiptOfMessage(message: NSData?)
+    optional func acknowledgedDeliveryOfMessage(message: NSData?, to publicKey: PublicKey)
 }
 
 struct NetworkProtocolConstants {
@@ -51,6 +52,8 @@ public class NetworkProtocol: NSObject, MCSessionDelegate, MCNearbyServiceAdvert
     
     var contentBuffer : [DataPacket]
     var ackBuffer : [DataPacket]
+    var sentBuffer : [DataPacket]
+    
     
     var keyPair : KeyPair
     public var delegate : NetworkProtocolDelegate? {
@@ -62,6 +65,7 @@ public class NetworkProtocol: NSObject, MCSessionDelegate, MCNearbyServiceAdvert
     init(keyPair: KeyPair) {
         self.contentBuffer = []
         self.ackBuffer = []
+        self.sentBuffer = []
         self.keyPair = keyPair;
         self.peerID = MCPeerID(displayName: UIDevice.currentDevice().name)
         
@@ -85,11 +89,27 @@ public class NetworkProtocol: NSObject, MCSessionDelegate, MCNearbyServiceAdvert
         if let encrypted = try SodiumCryptoProvider.encryptMessage(message, with: self.keyPair, to: recipient) {
             let packet = DataPacket(blob: encrypted, ttl: NetworkProtocolConstants.defaultTTL)
             self.acceptPacket(packet, to: &contentBuffer)
+            
+            let sentBlob: JSON = ["encrypted": encrypted.base64EncodedStringWithOptions([]), "message": message.base64EncodedStringWithOptions([]), "recipient": recipient.base64EncodedDataWithOptions([])]
+            let sentPacket = try DataPacket(blob: sentBlob.rawData(), ttl: NetworkProtocolConstants.defaultTTL)
+            self.acceptPacket(sentPacket, to: &sentBuffer, shouldBroadcast: false)
         }
     }
     
     private func checkBuffer(buffer: [DataPacket], for packet : DataPacket) -> Bool {
         return buffer.contains({ $0.hasSameBlob(packet) })
+    }
+    
+    private func checkSentBuffer(for message: DataPacket) -> (message: NSData, recipient: PublicKey)? {
+        for (index, packet) in sentBuffer.enumerate() {
+            let blobJSON = JSON(data:packet.blob)
+            let encrypted = NSData(base64EncodedString: blobJSON["encrypted"].string!, options: [])
+            if SodiumCryptoProvider.checkMessage(encrypted!, against: message.blob) {
+                sentBuffer.removeAtIndex(index)
+                return (NSData(base64EncodedString: blobJSON["message"].string!, options: [])!, NSData(base64EncodedString: blobJSON["recipient"].string!, options: [])!)
+            }
+        }
+        return nil
     }
     
     private func trimBuffer(inout buffer: [DataPacket], to maxLength : Int) {
@@ -105,7 +125,7 @@ public class NetworkProtocol: NSObject, MCSessionDelegate, MCNearbyServiceAdvert
         print("Connected peers: \(session.connectedPeers.description)")
     }
     
-    func acceptPacket(packet: DataPacket, inout to buffer : [DataPacket]) {
+    func acceptPacket(packet: DataPacket, inout to buffer : [DataPacket], shouldBroadcast: Bool = true) {
         if packet.decrementTTL() {
             if checkBuffer(buffer, for: packet) {
                print("Not adding duplicate packet to buffer")
@@ -113,11 +133,13 @@ public class NetworkProtocol: NSObject, MCSessionDelegate, MCNearbyServiceAdvert
                 print("Propogating packet by adding to buffer")
                 buffer.append(packet)
                 
-                // broadcast to currently connected peers
-                do {
-                    try self.session.sendData(packet.serialize(), toPeers: self.session.connectedPeers, withMode: .Reliable)
-                } catch {
-                    print("Error sending packet!")
+                if shouldBroadcast {
+                    // broadcast to currently connected peers
+                    do {
+                        try self.session.sendData(packet.serialize(), toPeers: self.session.connectedPeers, withMode: .Reliable)
+                    } catch {
+                        print("Error sending packet!")
+                    }
                 }
                 
                 trimBuffer(&buffer, to: NetworkProtocolConstants.maxBufferLength)
@@ -152,9 +174,14 @@ public class NetworkProtocol: NSObject, MCSessionDelegate, MCNearbyServiceAdvert
             print("Received ack!")
             do {
                 if let contentIndex = try SodiumCryptoProvider.checkBuffer(contentBuffer.map( {$0.blob} ), against: blob) {
-                    let message = contentBuffer.removeAtIndex(contentIndex)
+                    let packet = contentBuffer.removeAtIndex(contentIndex)
                     print("Received ack for message!")
-                    self.delegate?.acknowledgedReceiptOfMessage?(message.blob)
+                    
+                    if let (message, recipient) = checkSentBuffer(for: packet){
+                        self.delegate?.acknowledgedDeliveryOfMessage?(message, to: recipient)
+                    } else {
+                        print("Ack is not for message sent by us")
+                    }
                 } else {
                     print("Ack did not match any message in buffer")
                 }

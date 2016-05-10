@@ -95,7 +95,7 @@ class SodiumCryptoProvider : CryptoProvider {
     static func genKeyPair() -> Box.KeyPair {
         return sodium.box.keyPair()!
     }
-    
+
     static func encryptMessage(payload: NSData, with keyPair: KeyPair, to recipient: PublicKey) throws -> NSData? {
         let ephemeralKey = sodium.box.keyPair()!
         
@@ -153,15 +153,15 @@ class SodiumCryptoProvider : CryptoProvider {
     static func checkBuffer(buffer: [NSData], against ackMessage: NSData) throws -> Int? {
         let ackMessageContainer = JSON(data: ackMessage)
         let ackMessageData = NSData(base64EncodedString:ackMessageContainer["ackMessage"].string!, options: [])!
-        let ackMessage = JSON(data:ackMessageData)
+        let ackMessageJSON = JSON(data:ackMessageData)
         
         for (index, message) in buffer.enumerate() {
             let messageContainer = JSON(data: message)
             let contentMessageData = NSData(base64EncodedString:messageContainer["contentMessage"].string!, options:[])!
             let contentMessage = JSON(data:contentMessageData)
             
-            if (contentMessage["uuid"].string == ackMessage["uuid"].string) {
-                let keyCheck = sodium.secretBox.open(NSData(base64EncodedString:contentMessage["uuidEnc"].string!, options: [])!, secretKey: NSData(base64EncodedString:ackMessage["ackKey"].string!, options: [])!)
+            if (contentMessage["uuid"].string == ackMessageJSON["uuid"].string) {
+                let keyCheck = sodium.secretBox.open(NSData(base64EncodedString:contentMessage["uuidEnc"].string!, options: [])!, secretKey: NSData(base64EncodedString:ackMessageJSON["ackKey"].string!, options: [])!)
                 if try (keyCheck == NSData(base64EncodedString:contentMessage["uuid"].string!, options: [])) {
                     return index
                 } else {
@@ -171,6 +171,30 @@ class SodiumCryptoProvider : CryptoProvider {
         }
         
         return nil
+    }
+    
+    static func checkMessage(message1: NSData, against message2: NSData) -> Bool {
+        let message1Container = JSON(data: message1)
+        var message1String: String = ""
+        if getMessageType(message1) == MessageType.Ack {
+            message1String = message1Container["ackMessage"].string!
+        } else if getMessageType(message1) == MessageType.Content {
+            message1String = message1Container["contentMessage"].string!
+        }
+        
+        let message1JSON = JSON(data: NSData(base64EncodedString: message1String, options: [])!)
+        
+        let message2Container = JSON(data: message2)
+        var message2String: String = ""
+        if getMessageType(message2) == MessageType.Ack {
+            message2String = message2Container["ackMessage"].string!
+        } else if getMessageType(message2) == MessageType.Content {
+            message2String = message2Container["contentMessage"].string!
+        }
+        
+        let message2JSON = JSON(data: NSData(base64EncodedString: message2String, options: [])!)
+
+        return message1JSON["uuid"].string! == message2JSON["uuid"].string!
     }
 
 }
